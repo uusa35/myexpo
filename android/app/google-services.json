@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "112318178893",
+    "firebase_url": "https://expoapp-6d5f8.firebaseio.com",
+    "project_id": "expoapp-6d5f8",
+    "storage_bucket": "expoapp-6d5f8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:112318178893:android:ed8c1dc29ff4a6e5",
+        "android_client_info": {
+          "package_name": "com.hexa.myexpo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "112318178893-2ob0440jd4kpkls0cscmcb11o59be5dc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPD7UEhHJJUxzndqY8N_kZExY2Hs6WmaU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "112318178893-2ob0440jd4kpkls0cscmcb11o59be5dc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "112318178893-gp1l453s1n9kj29o152m3bb3akqim83f.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.imostafa.ExpoApp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:112318178893:android:bc302a44850fa6a30b5e04",
+        "android_client_info": {
+          "package_name": "com.myexpokw"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "112318178893-2ob0440jd4kpkls0cscmcb11o59be5dc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPD7UEhHJJUxzndqY8N_kZExY2Hs6WmaU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "112318178893-2ob0440jd4kpkls0cscmcb11o59be5dc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "112318178893-gp1l453s1n9kj29o152m3bb3akqim83f.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.imostafa.ExpoApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
