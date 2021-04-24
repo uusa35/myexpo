@@ -156,6 +156,10 @@ export function* setCountries() {
     const countries = yield call(api.getCountries);
     if (!validate.isEmpty(countries) && validate.isArray(countries)) {
       yield put({type: actions.SET_COUNTRIES, payload: countries});
+      const localCountry = first(filter(countries, (c) => c.is_local));
+      if (!validate.isEmpty(localCountry)) {
+        yield put({type: actions.SET_SHIPMENT_COUNTRY, payload: localCountry});
+      }
     } else {
       throw I18n.t('no_countries');
     }
@@ -319,40 +323,47 @@ export function* setHomeSplashes() {
 
 export function* startAddToCartScenario(action) {
   try {
-    const {cart, country, product, settings} = yield select();
-    if (!country.is_local && action.payload.type === 'service') {
+    const {cart, shipmentCountry, settings} = yield select();
+    if (!shipmentCountry.is_local && action.payload.type === 'service') {
       throw I18n.t(
         'orders_that_include_services_are_not_accepted_out_side_kuwait',
       );
     } else {
       const filteredCart = yield call(filterCartAndItems, [cart, action]);
-      if (!settings.multiCartMerchant && filteredCart.length >= 1) {
-        let multiMerchantEnabled = filter(
-          map(
-            filteredCart,
-            (e) => e.element.user_id === first(cart).element.user_id,
-          ),
-          (e) => e === false,
-        );
-        if (multiMerchantEnabled.length >= 1) {
-          throw I18n.t('you_can_only_add_to_cart_from_only_single_merchant');
+      let multiMerchantEnabled = filter(
+        map(
+          filteredCart,
+          (e) => e.element.user_id === first(cart).element.user_id,
+        ),
+        (e) => e === false,
+      );
+      if (
+        !settings.multiCartMerchant &&
+        filteredCart.length >= 1 &&
+        multiMerchantEnabled.length >= 1
+      ) {
+        yield put({
+          type: actions.REMOVE_FROM_CART,
+          payload: action.payload.cart_id,
+        });
+        throw I18n.t('you_can_only_add_to_cart_from_only_single_merchant');
+      } else {
+        if (!validate.isEmpty(filteredCart)) {
+          yield all([
+            // call(startGoogleAnalyticsScenario, {
+            //   payload: {type: 'AddToCart', element: product},
+            // }),
+            call(
+              enableSuccessMessage,
+              !action.payload.directPurchase
+                ? I18n.t(`${action.payload.type}_added_to_cart_successfully`)
+                : I18n.t('you_can_add_more_than_one_product_to_cart'),
+            ),
+            put({type: actions.FILTER_CART, payload: filteredCart}),
+            put({type: actions.SET_COUPON, payload: {}}),
+            call(setTotalCartValue, filteredCart),
+          ]);
         }
-      }
-      if (!validate.isEmpty(filteredCart)) {
-        yield all([
-          call(startGoogleAnalyticsScenario, {
-            payload: {type: 'AddToCart', element: product},
-          }),
-          call(
-            enableSuccessMessage,
-            !action.payload.directPurchase
-              ? I18n.t(`${action.payload.type}_added_to_cart_successfully`)
-              : I18n.t('you_can_add_more_than_one_product_to_cart'),
-          ),
-          put({type: actions.FILTER_CART, payload: filteredCart}),
-          put({type: actions.SET_COUPON, payload: {}}),
-          call(setTotalCartValue, filteredCart),
-        ]);
       }
     }
   } catch (e) {
@@ -407,10 +418,9 @@ export function* setGrossTotalCartValue(values) {
         : country.is_local
         ? country.fixed_shipment_charge
         : country.fixed_shipment_charge * countPieces;
-    const grossTotal =
-      parseFloat(total) +
-      parseFloat(finalShipment) -
-      parseFloat(!validate.isEmpty(coupon) ? coupon.value : 0);
+    const grossTotal = parseFloat(
+      total + finalShipment - (!validate.isEmpty(coupon) ? coupon.value : 0),
+    );
     yield put({type: actions.SET_GROSS_TOTAL_CART, payload: grossTotal});
     yield put({type: actions.SET_SHIPMENT_FEES, payload: finalShipment});
   } catch (e) {
@@ -533,6 +543,9 @@ export function* startSubmitCartScenario(action) {
       country_id,
       notes,
       area,
+      block,
+      street,
+      building,
     } = action.payload;
     const result = validate({name, mobile, email, address}, registerConstrains);
     if (validate.isEmpty(result)) {
@@ -543,7 +556,10 @@ export function* startSubmitCartScenario(action) {
             cName: name,
             cEmail: email,
             cMobile: mobile,
+            cBlock: block,
+            cStreet: street,
             cAddress: address,
+            cBuilding: building,
             country_id,
             cArea: area,
             cNotes: notes,
@@ -635,7 +651,6 @@ export function* startCreateMyFatorrahPaymentUrlScenario(action) {
 export function* startCreateTapPaymentUrlScenario(action) {
   try {
     yield call(enableLoading);
-    console.log('action', action.payload);
     const url = yield call(api.makeTapPayment, action.payload);
     if (validate.isObject(url) && url.paymentUrl.includes('http')) {
       yield put(

@@ -18,7 +18,6 @@ import ProductSearchForm from '../../components/widgets/search/ProductSearchForm
 import BgContainer from '../../components/containers/BgContainer';
 import AppHomeConfigComponent from '../../components/containers/AppHomeConfigComponent';
 import {bottomContentInset} from '../../constants/sizes';
-import {isIOS} from '../../constants';
 
 const AbatiHomeScreen = () => {
   const {
@@ -42,7 +41,6 @@ const AbatiHomeScreen = () => {
 
   return (
     <BgContainer>
-      <AppHomeConfigComponent />
       {settings.splash_on && (
         <IntroductionWidget
           elements={splashes}
@@ -95,11 +93,10 @@ const AbatiHomeScreen = () => {
             elements={homeCelebrities}
             showName={true}
             name="celebrities"
-            title={I18n.t('celebrities')}
+            title={I18n.t('celebrities_choices')}
             searchParams={{
               is_celebrity: 1,
               country_id: country.id,
-              on_home: true,
             }}
           />
         )}
