@@ -7,6 +7,7 @@ import ProductInfoWidgetBtns from './ProductInfoWidgetBtns';
 import {Button} from 'react-native-elements';
 import I18n from './../../../I18n';
 import {text} from '../../../constants/sizes';
+import {useSelector} from 'react-redux';
 
 const ProductInfoWidget = ({
   element,
@@ -48,7 +49,7 @@ const ProductInfoWidget = ({
   );
 };
 
-export default ProductInfoWidget;
+export default React.memo(ProductInfoWidget);
 
 ProductInfoWidget.propTypes = {
   element: PropTypes.object.isRequired,

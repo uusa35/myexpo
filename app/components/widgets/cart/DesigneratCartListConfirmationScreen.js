@@ -11,7 +11,7 @@ import {isEmpty} from 'lodash';
 import {GlobalValuesContext} from '../../../redux/GlobalValuesContext';
 import validate from 'validate.js';
 import {useDispatch, useSelector} from 'react-redux';
-import {useNavigation} from 'react-navigation-hooks';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import widgetStyles from '../widgetStyles';
 import {adjustColor, getWhatsappLink} from '../../../helpers';
 import {
@@ -30,9 +30,10 @@ const DesigneratCartListConfirmationScreen = ({
   const dispatch = useDispatch();
   const {colors, total, grossTotal} = useContext(GlobalValuesContext);
   const {coupon, shipmentFees, cart, settings, shipmentCountry} = useSelector(
-    (state) => state,
+    state => state,
   );
   const navigation = useNavigation();
+  const route = useRoute();
   const {
     cName,
     cEmail,
@@ -46,7 +47,7 @@ const DesigneratCartListConfirmationScreen = ({
     cAreaId,
     country_id,
     area_id,
-  } = navigation.state.params;
+  } = route.params;
   const [checked, setChecked] = useState(false);
 
   const handleCashOnDelivery = () => {

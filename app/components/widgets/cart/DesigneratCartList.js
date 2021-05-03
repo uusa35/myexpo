@@ -25,12 +25,14 @@ import {
   REGISTER_AS_CLIENT,
 } from '../../../redux/actions/types';
 import KeyBoardContainer from '../../containers/KeyBoardContainer';
-import {useNavigation} from 'react-navigation-hooks';
+import {useNavigation} from '@react-navigation/native';
 import DesigneratProductItem from '../product/DesigneratProductItem';
 import widgetStyles from '../widgetStyles';
 import {toggleProductFavorite} from '../../../redux/actions/product';
 import {width} from '../../../constants';
 import DesigneratBtn from '../Button/DesigneratBtn';
+import DesigneratDesignerShowScreen from '../../../screens/designer/DesigneratDesignerShowScreen';
+import DesingeratBtn from '../Button/DesigneratBtn';
 import DesigneratCartPriceSummary from './DesigneratCartPriceSummary';
 
 const DesigneratCartList = ({
@@ -50,7 +52,7 @@ const DesigneratCartList = ({
     currency_symbol,
     cartLength,
   } = useContext(GlobalValuesContext);
-  const {cart, auth, guest, country} = useSelector((state) => state);
+  const {cart, auth, guest, country} = useSelector(state => state);
   const {navigate} = useNavigation();
   const [name, setName] = useState(!validate.isEmpty(auth) ? auth.name : null);
   const [email, setEmail] = useState(
@@ -80,7 +82,7 @@ const DesigneratCartList = ({
   }, [auth]);
 
   const handleRegisterClick = () => {
-    return navigate('Register');
+    dispatch({type: REGISTER_AS_CLIENT, payload: {isClient: true}});
   };
 
   return (
@@ -175,9 +177,9 @@ const DesigneratCartList = ({
           inputStyle={widgetStyles.inputStyle}
           shake={true}
           keyboardType="default"
-          onChangeText={(code) => setCode(code)}
+          onChangeText={code => setCode(code)}
         />
-        <DesigneratBtn
+        <DesingeratBtn
           handleClick={() => dispatch(getCoupon(code))}
           title={I18n.t('add_coupon')}
           marginTop={20}
@@ -195,12 +197,12 @@ const DesigneratCartList = ({
             flex: 1,
             margin: 15,
           }}>
-          <DesigneratBtn
+          <DesingeratBtn
             handleClick={() => navigate('Login')}
             title={I18n.t('login')}
             width={'45%'}
           />
-          <DesigneratBtn
+          <DesingeratBtn
             handleClick={() => navigate('Register')}
             title={I18n.t('register')}
             width={'45%'}

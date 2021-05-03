@@ -2,6 +2,78 @@
   "migIndex": 1,
   "data": [
     {
+      "path": "assets/animations/9squares-AlBoardman.json",
+      "sha1": "6547ba6b9064e8360ab269b64ce229750a74dcbd"
+    },
+    {
+      "path": "assets/animations/HamburgerArrow.json",
+      "sha1": "562c04ec3ac4d2d5de521ea37143057da2deadc0"
+    },
+    {
+      "path": "assets/animations/LineAnimation.json",
+      "sha1": "04ebb54c2e7fe3a51f291a038582b2a2d3e728f7"
+    },
+    {
+      "path": "assets/animations/LottieLogo1.json",
+      "sha1": "fccef14a60b9850cf23b0b7278f84eedfac511dd"
+    },
+    {
+      "path": "assets/animations/LottieLogo2.json",
+      "sha1": "e22029dd7fa224991c7fb6b7b6efdacb05c6977e"
+    },
+    {
+      "path": "assets/animations/LottieWalkthrough.json",
+      "sha1": "d95132f67d1aa98c4f4137746a39756a5c996d36"
+    },
+    {
+      "path": "assets/animations/MotionCorpse-Jrcanest.json",
+      "sha1": "b02bbb6534cd1e943039ea9c90b9a114bd55b5fc"
+    },
+    {
+      "path": "assets/animations/PinJump.json",
+      "sha1": "63b7b5905b2c05a5f727bdd9036e7e28d69b8494"
+    },
+    {
+      "path": "assets/animations/TwitterHeart.json",
+      "sha1": "859a33a4571d5d82cb4799f245dc56e1606f6fa1"
+    },
+    {
+      "path": "assets/animations/Watermelon.json",
+      "sha1": "e71eabf0bc79575c8ef669fde817955b043d1205"
+    },
+    {
+      "path": "assets/animations/car.json",
+      "sha1": "ea3553b474742486ece010a72f48721682272585"
+    },
+    {
+      "path": "assets/animations/cart.json",
+      "sha1": "94cfad4e89a9fbdf167af32f48ff892e3fd1044b"
+    },
+    {
+      "path": "assets/animations/circle-animation.json",
+      "sha1": "f17c47aa77aa86c217d05a495f355bc6dca02015"
+    },
+    {
+      "path": "assets/animations/circle-loading-animation.json",
+      "sha1": "7f8c7a1c7e9f9082b6df52b72fc0b088217beb2d"
+    },
+    {
+      "path": "assets/animations/empty_cart.json",
+      "sha1": "836d8d8c7cbbd52f5c7d28dc99bb1d63bb00803e"
+    },
+    {
+      "path": "assets/animations/empty_shape.json",
+      "sha1": "2d43829327b18bfbfd4410ba9ac6573dca8ee37a"
+    },
+    {
+      "path": "assets/animations/expo_loading.json",
+      "sha1": "d231bbab85df23ffe261fb90efdfbacc0a00e827"
+    },
+    {
+      "path": "assets/animations/offline.json",
+      "sha1": "544910cbbee219182ae37f166454c3bfa9c7fb0d"
+    },
+    {
       "path": "assets/fonts/AR-Almarai-Font.ttf",
       "sha1": "2b2f8db8552c94d5887343b2730d237056b925fc"
     },
@@ -180,6 +252,206 @@
     {
       "path": "assets/fonts/cairo.ttf",
       "sha1": "775ca60f44bcf9369b75a542acfcf58d4e5fa5d2"
+    },
+    {
+      "path": "assets/icons/brands.png",
+      "sha1": "a7be950b2aa0ad71788825446f9b30160ad87ff6"
+    },
+    {
+      "path": "assets/icons/cart.png",
+      "sha1": "89624adfee1770ee7c030a9d962915ea8123e2a3"
+    },
+    {
+      "path": "assets/icons/cart_3.png",
+      "sha1": "7ecd1b4659d53a8d3e85ee821a758ed3501e9004"
+    },
+    {
+      "path": "assets/icons/cart_4.png",
+      "sha1": "101acb81d728ffa07335b3b7e598a51bef688888"
+    },
+    {
+      "path": "assets/icons/cart_5.png",
+      "sha1": "4de52848c838c84d55a1fd86ce97b21d87bb7d32"
+    },
+    {
+      "path": "assets/icons/categories.png",
+      "sha1": "d5351eb077da5c7097bd4314ad274e642c28c9eb"
+    },
+    {
+      "path": "assets/icons/categories_2.png",
+      "sha1": "3080abd4691e38c21a4379420816c04c665318f0"
+    },
+    {
+      "path": "assets/icons/category_filter.png",
+      "sha1": "312342583747289ffa2241dc8e2d50e443935539"
+    },
+    {
+      "path": "assets/icons/color_filter.png",
+      "sha1": "1b695e5777947ae86e15818614007440e33ddf7f"
+    },
+    {
+      "path": "assets/icons/compass.png",
+      "sha1": "c73e23e353c805f2c7de62aacd55c4f15358847f"
+    },
+    {
+      "path": "assets/icons/contactus.png",
+      "sha1": "61d289a84f3fbb0581ac20c9626aabf87980b5ee"
+    },
+    {
+      "path": "assets/icons/designerat.png",
+      "sha1": "65433480d62f02918bc7a38f24e171019f3e9873"
+    },
+    {
+      "path": "assets/icons/female.png",
+      "sha1": "205fcdde33cbd1da4385ba7b3e77bf9e3b1de0ea"
+    },
+    {
+      "path": "assets/icons/gear_2.png",
+      "sha1": "2a70e09ceb66e4aeae9124922884c24a6957b342"
+    },
+    {
+      "path": "assets/icons/gears.png",
+      "sha1": "32f9a4f3b5cac679526075500371ba273885710d"
+    },
+    {
+      "path": "assets/icons/globe.png",
+      "sha1": "efd2e535493765dcddebaecbabf1eca31864a99f"
+    },
+    {
+      "path": "assets/icons/globe_2.png",
+      "sha1": "a589bd043f0f645d242d5cd12bb63d3e9f7125c9"
+    },
+    {
+      "path": "assets/icons/hanger.png",
+      "sha1": "7b496515f00d759bd1cb77d807baf075645a734e"
+    },
+    {
+      "path": "assets/icons/home.png",
+      "sha1": "a7be950b2aa0ad71788825446f9b30160ad87ff6"
+    },
+    {
+      "path": "assets/icons/home_2.png",
+      "sha1": "00fc22412fee7b1e905264384346e0f594e62a1a"
+    },
+    {
+      "path": "assets/icons/home_3.png",
+      "sha1": "b78916de2ff05e9090c83c537688b8610f8a95a7"
+    },
+    {
+      "path": "assets/icons/home_4.png",
+      "sha1": "c67cf2893bfcf21a4bff76161797dbecb2826a3c"
+    },
+    {
+      "path": "assets/icons/home_5.png",
+      "sha1": "29f7978cf15ad6ee66817285313f93ed20a71c1e"
+    },
+    {
+      "path": "assets/icons/home_6.png",
+      "sha1": "c309184bbbc13275081689346bf3b8ef20689de9"
+    },
+    {
+      "path": "assets/icons/home_7.png",
+      "sha1": "5c0ad7941585f7b48e9a76f71053691f2ae2dd28"
+    },
+    {
+      "path": "assets/icons/info.png",
+      "sha1": "33fd1e4edb9439299491e67abf9f1e7ac0aec1f6"
+    },
+    {
+      "path": "assets/icons/phone.png",
+      "sha1": "09e9fe1c039b6f327757e320020a9211bcb145b2"
+    },
+    {
+      "path": "assets/icons/policy.png",
+      "sha1": "1b9306f9bd4cd5db86292931beab8310405c8000"
+    },
+    {
+      "path": "assets/icons/profile.png",
+      "sha1": "82b974523b26e142478e2180c722271a966ed116"
+    },
+    {
+      "path": "assets/icons/user.png",
+      "sha1": "b4a525a911a041f0f153b755b58a4c76f048cbd1"
+    },
+    {
+      "path": "assets/icons/user_2.png",
+      "sha1": "08fee8a030f74ec36d4789c58366d7e3910fabfe"
+    },
+    {
+      "path": "assets/icons/user_3.png",
+      "sha1": "8914f3685acd15903e871c79a0656d788e87a4c9"
+    },
+    {
+      "path": "assets/images/abati.jpeg",
+      "sha1": "ba03cf4ebdf17cf8e9ee16506350d87eb52625ba"
+    },
+    {
+      "path": "assets/images/abati.png",
+      "sha1": "5b7d9ed3af3fbad66e9c5374bd4e38dad259b949"
+    },
+    {
+      "path": "assets/images/cart_bg.png",
+      "sha1": "1970e85bec78037df880ae372799a3cf0c4867a8"
+    },
+    {
+      "path": "assets/images/cart_empty.png",
+      "sha1": "8f470a181ad076a67476c900afe9dd4a9d1509be"
+    },
+    {
+      "path": "assets/images/empty_favorite.jpeg",
+      "sha1": "c3cecddd4cd0eac25cd6d90c72551569d64337e7"
+    },
+    {
+      "path": "assets/images/empty_order.jpeg",
+      "sha1": "28eb544b20777390d8ae76297ef086e7090b1354"
+    },
+    {
+      "path": "assets/images/escrap.jpeg",
+      "sha1": "e96b07b0a1cddbd7bde417c99aed4f3ef643545d"
+    },
+    {
+      "path": "assets/images/escrap_sm.jpeg",
+      "sha1": "a881f4ad805d787da15736d8199b28df57ed19a9"
+    },
+    {
+      "path": "assets/images/expo.png",
+      "sha1": "43d624ad55527ead256a8853ac18c1ae34c8f2a2"
+    },
+    {
+      "path": "assets/images/grayBg.png",
+      "sha1": "5c788d4700faa084814e82e1af20d9803849b58c"
+    },
+    {
+      "path": "assets/images/homekey.jpeg",
+      "sha1": "096eebf273bccd3df712f344f518e6dd60eeee03"
+    },
+    {
+      "path": "assets/images/loading.gif",
+      "sha1": "ef6f39c95e1c6faf33baa964d9a902d8d7bac75f"
+    },
+    {
+      "path": "assets/images/loading_sm.gif",
+      "sha1": "054d85e94da90ddab6374b6758286e2448b28f95"
+    },
+    {
+      "path": "assets/images/mallr.jpeg",
+      "sha1": "1b0f8f6491a0d82a233312942f7fdf5fec048e62"
+    },
+    {
+      "path": "assets/images/pin.png",
+      "sha1": "eb837c2fefecb284ec60455c373253103a931469"
+    },
+    {
+      "path": "assets/images/pin_old.png",
+      "sha1": "8086c5f22c2bc7380ed0baa654f3702d26eeb96d"
+    },
+    {
+      "path": "assets/images/star.png",
+      "sha1": "2f38d384a3937207a1fe20a9074592d75016c4d6"
+    },
+    {
+      "path": "assets/images/whiteBg.png",
+      "sha1": "4a50c774e825278cdd7666221348235b2e314e53"
     }
   ]
 }

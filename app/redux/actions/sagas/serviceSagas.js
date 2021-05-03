@@ -10,7 +10,7 @@ import {
 import * as api from '../api';
 import validate from 'validate.js';
 import * as actions from '../types';
-import {NavigationActions} from 'react-navigation';
+import * as RootNavigation from './../../../RootNavigation.js';
 import I18n from '../../../I18n';
 import {SET_SERVICES} from '../types';
 
@@ -30,7 +30,7 @@ export function* startGetServiceScenario(action) {
             payload: {type: 'Service', element},
           }),
           put(
-            NavigationActions.navigate({
+            RootNavigation.navigate({
               routeName: 'Service',
               params: {
                 name: element.name,
@@ -66,7 +66,7 @@ export function* startGetSearchServicesScenario(action) {
       ]);
       if (!validate.isEmpty(redirect) && redirect) {
         yield put(
-          NavigationActions.navigate({
+          RootNavigation.navigate({
             routeName: 'ServiceIndex',
             params: I18n.t('services'),
           }),

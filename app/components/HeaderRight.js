@@ -2,7 +2,7 @@
  * Created by usamaahmed on 9/28/17.
  */
 import React, {useContext, useMemo, useState} from 'react';
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {Pressable, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {
   hideCountryModal,
   showClassifiedFilter,
@@ -14,13 +14,15 @@ import {linkingPrefix} from '../constants/links';
 import Share from 'react-native-share';
 import I18n from '../I18n';
 import widgetStyles from './widgets/widgetStyles';
-import {useNavigation} from 'react-navigation-hooks';
-import {APP_CASE, HOMEKEY, EXPO, ABATI} from '../../app.json';
+import {APP_CASE, HOMEKEY, EXPO, ABATI, ISTORES} from '../../app';
 import {iconSizes} from '../constants/sizes';
 import {useDispatch, useSelector} from 'react-redux';
 import ImageLoaderContainer from './widgets/ImageLoaderContainer';
 import {isIOS} from '../constants';
 import {GlobalValuesContext} from '../redux/GlobalValuesContext';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {icons} from '../constants/images';
+import FastImage from 'react-native-fast-image';
 
 export const HeaderRight = ({
   showCountry = false,
@@ -30,12 +32,14 @@ export const HeaderRight = ({
   showExpoSearch = false,
   showHome = false,
   showCart = false,
+  showProductFavorite = false,
 }) => {
-  const {country, settings, countryModal} = useSelector((state) => state);
+  const {country, settings, countryModal} = useSelector(state => state);
   const {cartLength, colors} = useContext(GlobalValuesContext);
   const dispatch = useDispatch();
+  const route = useRoute();
   const navigation = useNavigation();
-  const {params} = navigation.state;
+  const params = route.params ? route.params : null;
   const [downloadTitleMessage, setDownloadTitleMessage] = useState('');
   const [androidMessage, setAndroidMessage] = useState('');
   const [iphoneMessage, setIphoneMessage] = useState('');
@@ -66,7 +70,7 @@ export const HeaderRight = ({
     );
   }, []);
 
-  const shareLink = (link) => {
+  const shareLink = link => {
     return Share.open({
       title: I18n.t('share_file', {name: I18n.t(APP_CASE)}),
       url: link,
@@ -74,8 +78,8 @@ export const HeaderRight = ({
       message: `${downloadTitleMessage} ${androidMessage} ${iphoneMessage} ${shareMessage}`,
       // subject: I18n.t('share_title', {name: I18n.t(APP_CASE)}),
     })
-      .then((res) => {})
-      .catch((err) => {});
+      .then(res => {})
+      .catch(err => {});
   };
 
   const handleCountryModal = () => {
@@ -117,7 +121,7 @@ export const HeaderRight = ({
           size={iconSizes.small}
           underlayColor="transparent"
           hitSlop={{top: 15, bottom: 15, left: 15, right: 15}}
-          color="black"
+          color={colors.footer_theme_color}
         />
       )}
       {showClassifiedsFilter && (
@@ -130,20 +134,29 @@ export const HeaderRight = ({
           size={iconSizes.small}
           underlayColor="transparent"
           hitSlop={{top: 15, bottom: 15, left: 15, right: 15}}
-          color="black"
+          color={colors.footer_theme_color}
         />
       )}
       {showProductsSearch && (
         <Icon
           onPress={() => {
-            dispatch(showProductFilter());
+            if(EXPO || ISTORES) {
+              // navigation.navigate('SearchTab');
+            }
+            dispatch(
+              showProductFilter({
+                showColor: true,
+                showSize: true,
+                showModal: true,
+              }),
+            );
           }}
           name="search1"
           type="antdesign"
           size={iconSizes.small}
           underlayColor="transparent"
           hitSlop={{top: 15, bottom: 15, left: 15, right: 15}}
-          color="black"
+          color={colors.footer_theme_color}
         />
       )}
       {showExpoSearch && (
@@ -156,7 +169,7 @@ export const HeaderRight = ({
           size={iconSizes.small}
           underlayColor="transparent"
           hitSlop={{top: 15, bottom: 15, left: 15, right: 15}}
-          color="black"
+          color={colors.footer_theme_color}
         />
       )}
       {showHome && (
@@ -169,20 +182,25 @@ export const HeaderRight = ({
           size={iconSizes.smaller}
           underlayColor="transparent"
           hitSlop={{top: 15, bottom: 15, left: 15, right: 15}}
-          color="black"
+          color={colors.footer_theme_color}
         />
       )}
       {showCart && (
         <View>
-          <Icon
-            onPress={() => navigation.navigate('CartIndex')}
-            name="shoppingcart"
-            type="antdesign"
-            size={iconSizes.small}
-            underlayColor="transparent"
-            hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}
-            color={colors.icon_theme_color}
-          />
+          <Pressable
+            onPress={() => navigation.navigate('CartTab')}
+            hitSlop={{
+              top: iconSizes.smaller,
+              bottom: iconSizes.smaller,
+              left: iconSizes.smaller,
+              right: iconSizes.smaller,
+            }}>
+            <FastImage
+              source={icons.cart}
+              style={{width: iconSizes.small, height: iconSizes.small}}
+              tintColor={colors.footer_theme_color}
+            />
+          </Pressable>
           {cartLength > 0 ? (
             <Badge
               status="error"
@@ -191,11 +209,28 @@ export const HeaderRight = ({
                 position: 'absolute',
                 top: -4,
                 right: -4,
-                opacity: 0.8,
+                opacity: 0.9,
+              }}
+              badgeStyle={{
+                backgroundColor: colors.btn_bg_theme_color,
+                color: colors.footer_theme_color,
               }}
             />
           ) : null}
         </View>
+      )}
+      {showProductFavorite && (
+        <Icon
+          onPress={() => {
+            navigation.navigate('FavoriteProductIndex');
+          }}
+          name="heart"
+          type="evilicon"
+          size={iconSizes.medium}
+          underlayColor="transparent"
+          hitSlop={{top: 15, bottom: 15, left: 15, right: 15}}
+          color={colors.footer_theme_color}
+        />
       )}
     </View>
   );

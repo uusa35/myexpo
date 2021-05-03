@@ -12,22 +12,22 @@ import {
   rightHorizontalContentInset,
   touchOpacity,
 } from '../../../constants/sizes';
-import {useNavigation} from 'react-navigation-hooks';
 import {useDispatch, useSelector} from 'react-redux';
 import {isEmpty} from 'lodash';
 import ImageLoaderContainer from '../ImageLoaderContainer';
 import {GlobalValuesContext} from '../../../redux/GlobalValuesContext';
+import {useNavigation} from '@react-navigation/native';
 
 const ProductCategoryHorizontalRoundedWidget = ({
   elements,
   showName,
   title,
 }) => {
-  const {navigate} = useNavigation();
+  const navigation = useNavigation();
   const dispatch = useDispatch();
-  const {country} = useSelector((state) => state);
+  const {country} = useSelector(state => state);
   const {colors} = useContext(GlobalValuesContext);
-  const handleClick = useCallback((c) => {
+  const handleClick = useCallback(c => {
     return dispatch(
       getSearchProducts({
         name: c.name,
@@ -45,7 +45,7 @@ const ProductCategoryHorizontalRoundedWidget = ({
           <TouchableOpacity
             activeOpacity={touchOpacity}
             style={widgetStyles.titleContainer}
-            onPress={() => navigate('CategoryIndex')}>
+            onPress={() => navigation.navigate('CategoryTab')}>
             <View style={widgetStyles.titleWrapper}>
               <Text
                 style={[

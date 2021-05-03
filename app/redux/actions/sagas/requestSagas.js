@@ -3,7 +3,7 @@ import {call, put, all, select, delay} from 'redux-saga/effects';
 import validate from 'validate.js';
 import * as api from '../api';
 import I18n from '../../../I18n';
-import {NavigationActions} from 'react-navigation';
+import * as RootNavigation from './../../../RootNavigation.js';
 import {
   disableLoading,
   enableErrorMessage,
@@ -30,6 +30,7 @@ import {
 } from '../../../constants/validations';
 import {GoogleSignin} from '@react-native-community/google-signin';
 import {
+  startGetCelebrityScenario,
   startGetCompanyScenario,
   startGetDesignerScenario,
   startGetSearchCompaniesScenario,
@@ -48,6 +49,8 @@ import {homeKeyBootStrap} from './homekey/appSagas';
 import {expoBootStrap} from './expo/appSagas';
 import {dailyBootStrap} from './daily/appSagas';
 import {startGetServiceScenario} from './serviceSagas';
+import shipmentFees from '../../reducers/shipmentFees';
+import {designeratBootStrap} from './designerat/appSagas';
 
 export function* startGetHomeCategoriesScenario(action) {
   try {
@@ -156,7 +159,7 @@ export function* setCountries() {
     const countries = yield call(api.getCountries);
     if (!validate.isEmpty(countries) && validate.isArray(countries)) {
       yield put({type: actions.SET_COUNTRIES, payload: countries});
-      const localCountry = first(filter(countries, (c) => c.is_local));
+      const localCountry = first(filter(countries, c => c.is_local));
       if (!validate.isEmpty(localCountry)) {
         yield put({type: actions.SET_SHIPMENT_COUNTRY, payload: localCountry});
       }
@@ -175,20 +178,17 @@ export function* setCountries() {
 // get the country if it' snot set
 export function* getCountry(country_id = null) {
   try {
-    const {country} = yield select();
-    if (!country.slug) {
-      const fetchedCountry = isNull(country_id)
-        ? yield call(api.getCountry)
-        : yield call(api.getCountry, country_id);
-      if (
-        !validate.isEmpty(fetchedCountry) &&
-        validate.isObject(fetchedCountry) &&
-        fetchedCountry.currency
-      ) {
-        yield call(startChooseCountryScenario, {
-          payload: {country: fetchedCountry},
-        });
-      }
+    const fetchedCountry = isNull(country_id)
+      ? yield call(api.getCountry)
+      : yield call(api.getCountry, country_id);
+    if (
+      !validate.isEmpty(fetchedCountry) &&
+      validate.isObject(fetchedCountry) &&
+      fetchedCountry.currency
+    ) {
+      yield call(startChooseCountryScenario, {
+        payload: {country: fetchedCountry},
+      });
     }
   } catch (e) {
     if (__DEV__) {
@@ -202,28 +202,36 @@ export function* getCountry(country_id = null) {
 export function* startChooseCountryScenario(action) {
   try {
     const {country, redirect} = action.payload;
-    yield put({type: actions.SET_COUNTRY, payload: country});
     if (!validate.isEmpty(country) && validate.isObject(country)) {
       const {total, coupon, cart} = yield select();
-      yield all([
-        put({type: actions.SET_CURRENCY, payload: country.currency.symbol}),
-        put({type: actions.SET_AREAS, payload: country.areas}),
-        put({
-          type: actions.SET_AREA,
-          payload: !validate.isEmpty(country.areas)
-            ? first(country.areas)
-            : {id: 1, name: 'none'},
-        }),
-        put({type: actions.HIDE_COUNTRY_MODAL}),
-        put({
-          type: actions.SET_SHIPMENT_FEES,
-          payload: country.fixed_shipment_charge,
-        }),
-        call(setGrossTotalCartValue, {total, coupon, country, cart}),
-      ]);
+      yield put({type: actions.SET_CURRENCY, payload: country.currency});
       if (!validate.isEmpty(redirect) && redirect) {
+        yield put({type: actions.SET_COUNTRY, payload: country});
+        yield all([
+          put({type: actions.SET_AREAS, payload: country.areas}),
+          put({
+            type: actions.SET_AREA,
+            payload: !validate.isEmpty(country.areas)
+              ? first(country.areas)
+              : {id: 1, name: 'none'},
+          }),
+          put({type: actions.HIDE_COUNTRY_MODAL}),
+          put({
+            type: actions.SET_SHIPMENT_FEES,
+            payload: country.fixed_shipment_charge,
+          }),
+          call(setGrossTotalCartValue, {
+            total,
+            coupon,
+            cart,
+          }),
+        ]);
         yield call(startClearCartScenario);
         yield call(startResetStoreScenario);
+      } else {
+        const {countries} = yield select();
+        const country = first(filter(countries, c => c.is_local));
+        yield put({type: actions.SET_COUNTRY, payload: country});
       }
     }
   } catch (e) {
@@ -245,12 +253,12 @@ export function* startDeepLinkingScenario(action) {
           return yield call(startGetDesignerScenario, {
             payload: {id, redirect: true, searchParams: {user_id: id}},
           });
-        case 'company':
-          return yield call(startGetCompanyScenario, {
+        case 'celebrity':
+          return yield call(startGetCelebrityScenario, {
             payload: {id, redirect: true, searchParams: {user_id: id}},
           });
-        case 'shopper':
-          return yield call(startGetShopperScenario, {
+        case 'company':
+          return yield call(startGetCompanyScenario, {
             payload: {id, redirect: true, searchParams: {user_id: id}},
           });
         case 'classified':
@@ -279,22 +287,14 @@ export function* startDeepLinkingScenario(action) {
 
 export function* startRefetchHomeElementsScenario() {
   try {
-    if (ABATI) {
-      yield call(abatiBootStrap);
-    } else if (MALLR) {
-      yield call(mallrBootStrap);
-    } else if (ESCRAP) {
-      yield call(escrapBootStrap);
-    } else if (HOMEKEY) {
-      yield call(homeKeyBootStrap);
-    } else if (EXPO) {
-      yield call(expoBootStrap);
-    } else if (DAILY) {
-      yield call(dailyBootStrap);
+    const {guest} = yield select();
+    yield call(designeratBootStrap);
+    if (!guest) {
+      yield call(startReAuthenticateScenario);
     }
   } catch (e) {
     if (__DEV__) {
-      // console.log('the e', e);
+      console.log('the e', e);
     }
     yield call(enableErrorMessage, I18n.t('refetch_home_error'));
   } finally {
@@ -333,9 +333,9 @@ export function* startAddToCartScenario(action) {
       let multiMerchantEnabled = filter(
         map(
           filteredCart,
-          (e) => e.element.user_id === first(cart).element.user_id,
+          e => e.element.user_id === first(cart).element.user_id,
         ),
-        (e) => e === false,
+        e => e === false,
       );
       if (
         !settings.multiCartMerchant &&
@@ -382,13 +382,13 @@ export function* setTotalCartValue(cart) {
       const {settings} = yield select();
       const total = sumBy(
         cart,
-        (i) =>
+        i =>
           (i.element.finalPrice + (i.wrapGift ? settings.gift_fee : 0)) * i.qty,
       );
-      const {coupon, country} = yield select();
+      const {coupon} = yield select();
       yield all([
         put({type: actions.SET_TOTAL_CART, payload: total}),
-        call(setGrossTotalCartValue, {total, coupon, country, cart}),
+        call(setGrossTotalCartValue, {total, coupon, cart}),
       ]);
     }
   } catch (e) {
@@ -403,24 +403,27 @@ export function* setTotalCartValue(cart) {
 
 export function* setGrossTotalCartValue(values) {
   try {
-    const {total, coupon, country} = values;
-    const {cart} = yield select();
-    const countPieces = sumBy(cart, (i) => i.qty);
+    const {total, coupon, cart} = values;
+    const {shipmentCountry} = yield select();
+    const countPieces = sumBy(cart, i => i.qty);
     if (__DEV__) {
       // console.log('the total', total);
     }
     if (__DEV__) {
       // console.log('the coupon from calculating', coupon);
     }
-    const finalShipment =
+    const finalShipment = parseFloat(
       cart.length === 1 && first(cart).type === 'service'
         ? 0
-        : country.is_local
-        ? country.fixed_shipment_charge
-        : country.fixed_shipment_charge * countPieces;
-    const grossTotal = parseFloat(
-      total + finalShipment - (!validate.isEmpty(coupon) ? coupon.value : 0),
+        : shipmentCountry.is_local
+        ? shipmentCountry.fixed_shipment_charge
+        : shipmentCountry.fixed_shipment_charge * countPieces,
     );
+    const couponValue = parseFloat(
+      !validate.isEmpty(coupon) ? coupon.value : 0,
+    );
+    const grossTotal =
+      parseFloat(total) + parseFloat(finalShipment) - parseFloat(couponValue);
     yield put({type: actions.SET_GROSS_TOTAL_CART, payload: grossTotal});
     yield put({type: actions.SET_SHIPMENT_FEES, payload: finalShipment});
   } catch (e) {
@@ -433,9 +436,9 @@ export function* setGrossTotalCartValue(values) {
 export function* startRemoveFromCartScenario(action) {
   try {
     const {cart} = yield select();
-    const filteredCart = remove(cart, (item) =>
+    const filteredCart = remove(cart, item =>
       item.type === 'product'
-        ? item.product_id !== action.payload
+        ? item.cart_id !== action.payload
         : item.service_id !== action.payload,
     );
     if (!validate.isEmpty(filteredCart) && cart.length > 0) {
@@ -451,16 +454,12 @@ export function* startRemoveFromCartScenario(action) {
       yield all([
         call(startClearCartScenario),
         call(enableWarningMessage, I18n.t('cart_cleared')),
-        put(
-          NavigationActions.navigate({
-            routeName: 'Home',
-          }),
-        ),
       ]);
+      // RootNavigation.navigate('CartTab');
     }
   } catch (e) {
     if (__DEV__) {
-      // console.log('the e', e);
+      console.log('the e', e);
     }
     yield call(enableErrorMessage, I18n.t('error_removing_product_from_cart'));
   } finally {
@@ -470,12 +469,16 @@ export function* startRemoveFromCartScenario(action) {
 
 export function* filterCartAndItems([cart, action]) {
   try {
-    let directPurchaseCart = filter(cart, (e) => e.directPurchase);
+    let directPurchaseCart = filter(cart, e => e.directPurchase);
     if (directPurchaseCart.length === 0) {
-      let cleanCart = map(cart, (e) => {
+      let cleanCart = map(cart, e => {
         // check if cart_id is available (means this product has_attributes true)
+        // if same product but different qty update the cart
         if (e.type == 'product') {
-          if (e.product_id === action.payload.product_id) {
+          if (
+            e.cart_id === action.payload.cart_id &&
+            e.qty !== action.payload.qty
+          ) {
             return action.payload;
           } else {
             return e;
@@ -488,19 +491,14 @@ export function* filterCartAndItems([cart, action]) {
         }
       });
       const filteredCart =
-        cart.length > 0
-          ? uniqBy(
-              cleanCart,
-              isNull(action.payload.cart_id) ? 'product_id' : 'cart_id',
-            )
-          : [action.payload];
+        cart.length > 0 ? uniqBy(cleanCart, 'cart_id') : [action.payload];
       return filteredCart;
     } else {
       if (action.payload.directPurchase) {
-        const filteredCart = [last(filter(cart, (e) => e.directPurchase))];
+        const filteredCart = [last(filter(cart, e => e.directPurchase))];
         return filteredCart;
       } else {
-        const filteredCart = filter(cart, (e) => !e.directPurchase);
+        const filteredCart = filter(cart, e => !e.directPurchase);
         return filteredCart;
       }
     }
@@ -523,6 +521,7 @@ export function* startClearCartScenario() {
       put({type: actions.SET_TOTAL_CART, payload: 0}),
       put({type: actions.SET_GROSS_TOTAL_CART, payload: 0}),
     ]);
+    RootNavigation.navigate('CartTab');
   } catch (e) {
     if (__DEV__) {
       // console.log('the e', e);
@@ -546,26 +545,23 @@ export function* startSubmitCartScenario(action) {
       block,
       street,
       building,
+      area_id,
     } = action.payload;
     const result = validate({name, mobile, email, address}, registerConstrains);
     if (validate.isEmpty(result)) {
-      yield put(
-        NavigationActions.navigate({
-          routeName: 'CartConfirmation',
-          params: {
-            cName: name,
-            cEmail: email,
-            cMobile: mobile,
-            cBlock: block,
-            cStreet: street,
-            cAddress: address,
-            cBuilding: building,
-            country_id,
-            cArea: area,
-            cNotes: notes,
-          },
-        }),
-      );
+      RootNavigation.navigate('CartConfirmation', {
+        cName: name,
+        cEmail: email,
+        cMobile: mobile,
+        cArea: area,
+        cBlock: block,
+        cStreet: street,
+        cBuilding: building,
+        cAddress: address,
+        country_id,
+        area_id,
+        cNotes: notes,
+      });
     } else {
       throw result['name']
         ? result['name'].toString()
@@ -587,7 +583,7 @@ export function* startSubmitCartScenario(action) {
 
 export function* startGetCouponScenario(action) {
   try {
-    const {total, country} = yield select();
+    const {total} = yield select();
     if (validate.isEmpty(action.payload)) {
       throw I18n.t('coupon_is_empty');
     }
@@ -595,7 +591,7 @@ export function* startGetCouponScenario(action) {
     if (!validate.isEmpty(coupon) && validate.isObject(coupon)) {
       yield all([
         put({type: actions.SET_COUPON, payload: coupon}),
-        call(setGrossTotalCartValue, {total, coupon, country}),
+        call(setGrossTotalCartValue, {total, coupon}),
         call(enableSuccessMessage, I18n.t('coupon_is_added_and_applied')),
       ]);
     } else {
@@ -619,14 +615,9 @@ export function* startCreateMyFatorrahPaymentUrlScenario(action) {
     yield call(enableLoading, I18n.t('create_payment_url'));
     const url = yield call(api.makeMyFatoorahPayment, action.payload);
     if (validate.isObject(url) && url.paymentUrl.includes('https')) {
-      yield put(
-        NavigationActions.navigate({
-          routeName: 'PaymentIndex',
-          params: {
-            paymentUrl: url.paymentUrl,
-          },
-        }),
-      );
+      RootNavigation.navigate('PaymentIndex', {
+        paymentUrl: url.paymentUrl,
+      });
     } else {
       throw url;
     }
@@ -638,11 +629,7 @@ export function* startCreateMyFatorrahPaymentUrlScenario(action) {
       // console.log('the e', e);
     }
     yield call(enableErrorMessage, e);
-    yield put(
-      NavigationActions.navigate({
-        routeName: 'CartIndex',
-      }),
-    );
+    RootNavigation.back();
   } finally {
     yield call(disableLoading);
   }
@@ -653,27 +640,18 @@ export function* startCreateTapPaymentUrlScenario(action) {
     yield call(enableLoading);
     const url = yield call(api.makeTapPayment, action.payload);
     if (validate.isObject(url) && url.paymentUrl.includes('http')) {
-      yield put(
-        NavigationActions.navigate({
-          routeName: 'PaymentIndex',
-          params: {
-            paymentUrl: url.paymentUrl,
-          },
-        }),
-      );
+      RootNavigation.navigate('PaymentIndex', {
+        paymentUrl: url.paymentUrl,
+      });
     } else {
       throw url;
     }
   } catch (e) {
-    // if (__DEV__) {
-    // console.log('the e', e);
-    // }
+    if (__DEV__) {
+      console.log('the e', e);
+    }
     yield call(enableErrorMessage, e);
-    yield put(
-      NavigationActions.navigate({
-        routeName: 'CartIndex',
-      }),
-    );
+    RootNavigation.back();
   } finally {
     yield call(disableLoading);
   }
@@ -685,14 +663,9 @@ export function* startCreateCashOnDeliveryPayment(action) {
     const element = yield call(api.makeCashOnDeliveryPayment, action.payload);
     if (validate.isObject(element) && element.url) {
       yield call(enableSuccessMessage, I18n.t('order_is_complete'));
-      yield put(
-        NavigationActions.navigate({
-          routeName: 'PaymentIndex',
-          params: {
-            paymentUrl: element.url,
-          },
-        }),
-      );
+      RootNavigation.navigate('PaymentIndex', {
+        paymentUrl: element.url,
+      });
       yield call(disableLoading);
     } else {
       throw element;
@@ -768,7 +741,7 @@ export function* startGoogleLoginScenario() {
             put({type: actions.TOGGLE_GUEST, payload: false}),
             call(enableSuccessMessage, I18n.t('register_success')),
             put(
-              NavigationActions.navigate({
+              RootNavigation.navigate({
                 routeName: 'Home',
               }),
             ),
@@ -831,7 +804,7 @@ export function* startGetCategoryAndGoToNavChildren(action) {
       if (element.isParent) {
         yield put({type: actions.SET_CATEGORY, payload: element});
         yield put(
-          NavigationActions.navigate({
+          RootNavigation.navigate({
             routeName: 'SubCategoryIndex',
             params: {name: element.name},
           }),
@@ -839,7 +812,7 @@ export function* startGetCategoryAndGoToNavChildren(action) {
       } else {
         yield put({type: actions.SET_SUB_CATEGORY, payload: element});
         yield put(
-          NavigationActions.navigate({
+          RootNavigation.navigate({
             routeName: 'ChildrenCategoryIndex',
             params: {name: element.name},
           }),

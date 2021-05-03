@@ -16,7 +16,6 @@ import I18n, {isRTL} from './../../../I18n';
 import {Icon} from 'react-native-elements';
 import widgetStyles from './../widgetStyles';
 import {useDispatch, useSelector} from 'react-redux';
-import {useNavigation} from 'react-navigation-hooks';
 import ImageLoaderContainer from '../ImageLoaderContainer';
 import {
   iconSizes,
@@ -24,6 +23,7 @@ import {
   touchOpacity,
 } from '../../../constants/sizes';
 import {isEmpty} from 'lodash';
+import {useNavigation} from '@react-navigation/native';
 
 const CompanyCategoryHorizontalWidget = ({
   elements,
@@ -32,11 +32,11 @@ const CompanyCategoryHorizontalWidget = ({
   showImage = true,
   showArrow = false,
 }) => {
-  const {colors} = useSelector((state) => state.settings);
+  const {colors} = useSelector(state => state.settings);
   const {navigate} = useNavigation();
   const dispatch = useDispatch();
 
-  const handleClick = (c) =>
+  const handleClick = c =>
     dispatch(
       getSearchDesigners({
         name: c.name,

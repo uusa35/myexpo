@@ -1,5 +1,4 @@
 import {combineReducers} from 'redux';
-import navReducer from './navReducer';
 import isLoading from './isLoading';
 import isLoadingContent from './isLoadingContent';
 import isLoadingProfile from './isLoadingProfile';
@@ -71,6 +70,7 @@ import showIntroduction from './showIntroduction';
 import linking from './linking';
 import playerId from './playerId';
 import auth from './auth';
+import address from './address';
 import coupon from './coupon';
 import searchParams from './searchParams';
 import commentModal from './commentModal';
@@ -97,12 +97,8 @@ import roles from './roles';
 import role from './role';
 import resetApp from './resetApp';
 import elementType from './elementType';
-// import {reducer as network} from 'react-native-offline';
-import isConnected from './isConnected';
-import address from './address';
 
 let reducers = combineReducers({
-  nav: navReducer,
   isLoading,
   isLoadingContent,
   isLoadingProfile,
@@ -165,12 +161,11 @@ let reducers = combineReducers({
   playerId,
   guest,
   auth,
+  address,
   token,
   countryModal,
   areaModal,
   coupon,
-  // network,
-  isConnected,
   searchParams,
   loginModal,
   showIntroduction,
@@ -187,7 +182,6 @@ let reducers = combineReducers({
   newClassified,
   classifiedProps,
   shipmentFees,
-  address,
   version,
   linking,
   propertiesModal,

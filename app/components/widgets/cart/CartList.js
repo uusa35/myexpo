@@ -12,12 +12,15 @@ import {map, round, isNull} from 'lodash';
 import ProductItem from '../product/ProductItem';
 import {GlobalValuesContext} from '../../../redux/GlobalValuesContext';
 import validate from 'validate.js';
-import {useNavigation} from 'react-navigation-hooks';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useDispatch, useSelector} from 'react-redux';
-import {CREATE_MYFATOORAH_PAYMENT_URL} from '../../../redux/actions/types';
+import {
+  CREATE_MYFATOORAH_PAYMENT_URL,
+  CREATE_TAP_PAYMENT_URL,
+} from '../../../redux/actions/types';
 import {getConvertedFinalPrice} from '../../../helpers';
 import KeyBoardContainer from '../../containers/KeyBoardContainer';
+import {useNavigation} from '@react-navigation/native';
 
 const CartList = ({
   shipmentCountry,
@@ -35,7 +38,7 @@ const CartList = ({
     exchange_rate,
     currency_symbol,
   } = useContext(GlobalValuesContext);
-  const {cart, auth, guest, country} = useSelector((state) => state);
+  const {cart, auth, guest, country} = useSelector(state => state);
   const {navigate} = useNavigation();
   const [name, setName] = useState(!validate.isEmpty(auth) ? auth.name : null);
   const [email, setEmail] = useState(
@@ -340,7 +343,7 @@ const CartList = ({
               }}
               shake={true}
               keyboardType="default"
-              onChangeText={(name) => setName(name)}
+              onChangeText={name => setName(name)}
             />
             <Input
               editable={editMode}
@@ -367,7 +370,7 @@ const CartList = ({
               }}
               shake={true}
               keyboardType="email-address"
-              onChangeText={(email) => setEmail(email)}
+              onChangeText={email => setEmail(email)}
             />
             <Input
               editable={editMode}
@@ -397,7 +400,7 @@ const CartList = ({
               }}
               shake={true}
               keyboardType="number-pad"
-              onChangeText={(text) => setMobile(text)}
+              onChangeText={text => setMobile(text)}
             />
             <TouchableOpacity
               onPress={() => {
@@ -451,7 +454,7 @@ const CartList = ({
               }}
               shake={true}
               keyboardType="default"
-              onChangeText={(area) => setArea(area)}
+              onChangeText={area => setArea(area)}
             />
             <Input
               editable={editMode}
@@ -481,7 +484,7 @@ const CartList = ({
               numberOfLines={3}
               shake={true}
               keyboardType="default"
-              onChangeText={(address) => setAddress(address)}
+              onChangeText={address => setAddress(address)}
             />
             <Input
               spellCheck={true}
@@ -512,7 +515,7 @@ const CartList = ({
               keyboardType="default"
               multiline={true}
               numberOfLines={3}
-              onChangeText={(notes) => setNotes(notes)}
+              onChangeText={notes => setNotes(notes)}
             />
 
             {coupon && editMode ? (
@@ -551,7 +554,7 @@ const CartList = ({
                   }}
                   shake={true}
                   keyboardType="default"
-                  onChangeText={(code) => setCode(code)}
+                  onChangeText={code => setCode(code)}
                 />
                 <Button
                   raised
@@ -618,7 +621,7 @@ const CartList = ({
                     address,
                     country_id: shipmentCountry.id,
                     notes,
-                    area: area ? area : selectedArea.slug,
+                    area: area ? area : 'N/A',
                   }),
                 )
               }
@@ -673,7 +676,7 @@ const CartList = ({
                 }}
                 onPress={() =>
                   dispatch({
-                    type: actions.CREATE_TAP_PAYMENT_URL,
+                    type: CREATE_TAP_PAYMENT_URL,
                     payload: {
                       name,
                       email,
@@ -685,7 +688,7 @@ const CartList = ({
                       total,
                       grossTotal,
                       shipment_fees: shipmentCountry.fixed_shipment_charge,
-                      discount,
+                      discount: coupon.value,
                       payment_method: isIOS
                         ? 'IOS - My Fatoorah'
                         : 'Android - My Fatoorah',

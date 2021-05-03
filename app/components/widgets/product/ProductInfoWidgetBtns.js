@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, Fragment} from 'react';
+import React, {useContext, Fragment} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import {text} from '../../../constants/sizes';
 import PropTypes from 'prop-types';
@@ -80,7 +80,7 @@ const ProductInfoWidgetBtns = ({
   );
 };
 
-export default ProductInfoWidgetBtns;
+export default React.memo(ProductInfoWidgetBtns);
 
 ProductInfoWidgetBtns.propTypes = {
   element: PropTypes.object.isRequired,

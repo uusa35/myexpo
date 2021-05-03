@@ -16,14 +16,12 @@ import ActionBtnWidget from '../../components/widgets/ActionBtnWidget';
 import ServiceHorizontalWidget from '../../components/widgets/service/ServiceHorizontalWidget';
 import HeaderImageScrollView from 'react-native-image-header-scroll-view';
 import VideosVerticalWidget from '../../components/widgets/video/VideosVerticalWidget';
-import {useNavigation} from 'react-navigation-hooks';
 import BgContainer from '../../components/containers/BgContainer';
 
-const ServiceShowScreen = () => {
-  const {service, services, settings, token} = useSelector((state) => state);
+const ServiceShowScreen = ({navigation}) => {
+  const {service, services, settings, token} = useSelector(state => state);
   const {phone, mobile} = settings;
   const dispatch = useDispatch();
-  const navigation = useNavigation();
   const [refresh, setRefresh] = useState(false);
   const [scrollVal, setScrollVal] = useState(0);
   const [btnVisible, setBtnVisible] = useState(false);
@@ -76,8 +74,6 @@ const ServiceShowScreen = () => {
             }}
           />
         }
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
         contentInset={{bottom: 50}}>
         <View style={{alignSelf: 'center', width: '95%'}}>
           <ServiceInfoWidget element={service} />

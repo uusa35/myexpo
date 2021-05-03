@@ -4,18 +4,13 @@ import * as actions from '../types';
 import {getUniqueId} from 'react-native-device-info';
 import {displayName} from './../../../../app';
 import {isLocal} from '../../../env';
-import {checkConnectionStatus, getColors, getSizes} from '../api';
-import {offlineActionTypes} from 'react-native-offline';
+import {getColors, getSizes} from '../api';
 import {startResetStoreScenario} from './appSagas';
 import validate from 'validate.js';
 import analytics from '@react-native-firebase/analytics';
 import moment from 'moment';
-import {SET_COLORS} from '../types';
-import {SET_SIZES} from '../types';
-import codePush from 'react-native-code-push';
 import {buildVersion} from './../../../../app';
-import {TOGGLE_IS_CONNECTED} from '../types';
-import {SET_PRODUCT_COLORS} from '../types';
+import {TOGGLE_IS_CONNECTED, SET_PRODUCT_COLORS, SET_SIZES} from '../types';
 
 export function* enableLoading() {
   yield put({type: actions.TOGGLE_LOADING, payload: true});
@@ -119,17 +114,6 @@ export function* enableWarningMessage(
       visible: true,
       color: 'orange',
     },
-  });
-}
-
-export function* checkConnection() {
-  const internetStatus = yield call(checkConnectionStatus);
-  // if (__DEV__) {
-  //   console.log('internetStatus', internetStatus);
-  // }
-  yield put({
-    type: TOGGLE_IS_CONNECTED,
-    payload: internetStatus,
   });
 }
 

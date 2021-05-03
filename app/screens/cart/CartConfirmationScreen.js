@@ -8,9 +8,9 @@ import {text, width} from '../../constants/sizes';
 import I18n from '../../I18n';
 import CartListConfirmationScreen from '../../components/widgets/cart/CartListConfirmationScreen';
 import {GlobalValuesContext} from '../../redux/GlobalValuesContext';
-import {useNavigation} from 'react-navigation-hooks';
 import KeyBoardContainer from '../../components/containers/KeyBoardContainer';
 import BgContainer from '../../components/containers/BgContainer';
+import {useNavigation} from '@react-navigation/native';
 
 const CartConfirmationScreen = () => {
   const {
@@ -21,12 +21,12 @@ const CartConfirmationScreen = () => {
     auth,
     guest,
     coupon,
-  } = useSelector((state) => state);
+  } = useSelector(state => state);
   const {grossTotal, colors} = useContext(GlobalValuesContext);
   const navigation = useNavigation();
 
   return (
-    <BgContainer showImage={false}>
+    <BgContainer>
       <KeyBoardContainer>
         {!validate.isEmpty(cart) ? (
           <CartListConfirmationScreen

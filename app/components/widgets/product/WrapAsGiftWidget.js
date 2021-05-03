@@ -6,6 +6,7 @@ import ImageLoaderContainer from '../ImageLoaderContainer';
 import React from 'react';
 import {Input, CheckBox} from 'react-native-elements';
 import {useDispatch, useSelector} from 'react-redux';
+import {isNull} from 'lodash';
 
 const WrapAsGiftWidget = ({
   wrapGift,
@@ -15,9 +16,10 @@ const WrapAsGiftWidget = ({
   giftMessage,
   setGiftMessage,
 }) => {
-  const {settings} = useSelector((state) => state);
+  const {settings} = useSelector(state => state);
   const {colors} = settings;
   const dispatch = useDispatch();
+
   return (
     <View>
       <CheckBox
@@ -36,7 +38,7 @@ const WrapAsGiftWidget = ({
         checkedColor={colors.btn_bg_theme_color}
         checked={wrapGift}
         onPress={() =>
-          !productAttribute || requestQty <= 0
+          requestQty <= 0
             ? dispatch(enableWarningMessage(I18n.t('choose_size_or_qty')))
             : setWrapGift(!wrapGift)
         }
@@ -72,13 +74,13 @@ const WrapAsGiftWidget = ({
               fontSize: text.medium,
               textAlign: isRTL ? 'right' : 'left',
             }}
-            disabled={!productAttribute || requestQty <= 0}
+            disabled={requestQty <= 0}
             // editable={!productAttribute || requestQty <= 0}
             shake={true}
             keyboardType="default"
             multiline={true}
             numberOfLines={3}
-            onChangeText={(e) => setGiftMessage(e)}
+            onChangeText={e => setGiftMessage(e)}
           />
         </View>
       )}
