@@ -196,6 +196,13 @@ export function chooseCountry(payload) {
   };
 }
 
+export function chooseCurrency(payload) {
+  return {
+    type: actions.SET_CURRENCY,
+    payload,
+  };
+}
+
 export function setArea(payload) {
   return {
     type: actions.SET_AREA,
@@ -225,6 +232,18 @@ export function showCountryModal() {
 export function hideCountryModal() {
   return {
     type: actions.HIDE_COUNTRY_MODAL,
+  };
+}
+
+export function showCurrencyModal() {
+  return {
+    type: actions.SHOW_CURRENCY_MODAL,
+  };
+}
+
+export function hideCurrencyModal() {
+  return {
+    type: actions.HIDE_CURRENCY_MODAL,
   };
 }
 

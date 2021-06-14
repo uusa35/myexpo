@@ -1,5 +1,5 @@
 import React, {useContext, useEffect} from 'react';
-import {StyleSheet, View, Text, ImageBackground} from 'react-native';
+import {StyleSheet, View, Text, ImageBackground, Pressable} from 'react-native';
 import {useSelector} from 'react-redux';
 import validate from 'validate.js';
 import {text, width, height} from '../../constants/sizes';
@@ -28,8 +28,9 @@ const DesigneratCartIndexScreen = () => {
     settings,
     coupon,
     area,
+    grossTotal,
   } = useSelector(state => state);
-  const {grossTotal, colors} = useContext(GlobalValuesContext);
+  const {colors} = useContext(GlobalValuesContext);
   const navigation = useNavigation();
 
   useEffect(() => {}, [cart]);

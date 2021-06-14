@@ -4,7 +4,7 @@ import {View} from 'react-native-animatable';
 import {map} from 'lodash';
 import PropTypes from 'prop-types';
 import {getSearchProducts} from '../../../redux/actions/product';
-import {isRTL} from './../../../I18n';
+import I18n, {isRTL} from './../../../I18n';
 import {Icon} from 'react-native-elements';
 import widgetStyles from './../widgetStyles';
 import {
@@ -22,6 +22,7 @@ const ProductCategoryHorizontalRoundedWidget = ({
   elements,
   showName,
   title,
+  showAll = false,
 }) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -45,7 +46,7 @@ const ProductCategoryHorizontalRoundedWidget = ({
           <TouchableOpacity
             activeOpacity={touchOpacity}
             style={widgetStyles.titleContainer}
-            onPress={() => navigation.navigate('CategoryTab')}>
+            onPress={() => navigation.navigate('CategoryIndex')}>
             <View style={widgetStyles.titleWrapper}>
               <Text
                 style={[
@@ -55,12 +56,29 @@ const ProductCategoryHorizontalRoundedWidget = ({
                 {title}
               </Text>
             </View>
-            <Icon
-              type="entypo"
-              name={isRTL ? 'chevron-thin-left' : 'chevron-thin-right'}
-              size={iconSizes.smallest}
-              color={colors.header_one_theme_color}
-            />
+            {showAll && (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'baseline',
+                  justifyContent: 'center',
+                  alignContent: 'center',
+                }}>
+                <Text
+                  style={[
+                    widgetStyles.headerThree,
+                    {color: colors.btn_bg_theme_color},
+                  ]}>
+                  {I18n.t('show_all')}
+                </Text>
+                <Icon
+                  type="entypo"
+                  name={isRTL ? 'chevron-thin-left' : 'chevron-thin-right'}
+                  size={iconSizes.tiny}
+                  color={colors.header_one_theme_color}
+                />
+              </View>
+            )}
           </TouchableOpacity>
           <ScrollView
             horizontal={true}

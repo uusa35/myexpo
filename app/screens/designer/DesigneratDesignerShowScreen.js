@@ -106,19 +106,28 @@ const DesigneratDesignerShowScreen = ({route}) => {
             onRefresh={() => handleRefresh()}
           />
         }>
-        {designer.banner && !validate.isEmpty(designer.banner) ? (
-          <ImageLoaderContainer
-            img={designer.banner}
-            style={{width: '100%', height: 200}}
-            resizeMode={'cover'}
-          />
-        ) : null}
+        {!validate.isEmpty(designer.slides) ? (
+          <View style={{width: width}}>
+            <MainSliderWidget elements={designer.slides} />
+          </View>
+        ) : (
+          <>
+            {designer.banner && !validate.isEmpty(designer.banner) ? (
+              <ImageLoaderContainer
+                img={designer.banner}
+                style={{width: '100%', height: 200}}
+                resizeMode={'cover'}
+              />
+            ) : (
+              <ImageLoaderContainer
+                img={logo}
+                style={{width: '100%', height: 200}}
+                resizeMode={'cover'}
+              />
+            )}
+          </>
+        )}
         <View style={[styles.wrapper, {marginTop: '5%'}]}>
-          {!validate.isEmpty(designer.slides) && (
-            <View style={{paddingTop: 10, paddingBottom: 10, width: width}}>
-              <MainSliderWidget elements={designer.slides} />
-            </View>
-          )}
           <View
             style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
             <ImageLoaderContainer img={designer.thumb} style={styles.image} />

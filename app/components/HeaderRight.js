@@ -5,8 +5,10 @@ import React, {useContext, useMemo, useState} from 'react';
 import {Pressable, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {
   hideCountryModal,
+  hideCurrencyModal,
   showClassifiedFilter,
   showCountryModal,
+  showCurrencyModal,
   showProductFilter,
 } from '../redux/actions';
 import {Icon, Badge} from 'react-native-elements';
@@ -26,6 +28,7 @@ import FastImage from 'react-native-fast-image';
 
 export const HeaderRight = ({
   showCountry = false,
+  showCurrency = false,
   displayShare = false,
   showClassifiedsFilter = false,
   showProductsSearch = false,
@@ -34,7 +37,9 @@ export const HeaderRight = ({
   showCart = false,
   showProductFavorite = false,
 }) => {
-  const {country, settings, countryModal} = useSelector(state => state);
+  const {country, settings, countryModal, currencyModal} = useSelector(
+    state => state,
+  );
   const {cartLength, colors} = useContext(GlobalValuesContext);
   const dispatch = useDispatch();
   const route = useRoute();
@@ -90,6 +95,14 @@ export const HeaderRight = ({
     }
   };
 
+  const handleCurrencyModal = () => {
+    if (!currencyModal) {
+      dispatch(showCurrencyModal());
+    } else {
+      dispatch(hideCurrencyModal());
+    }
+  };
+
   return (
     <View style={widgetStyles.safeContainer}>
       {showCountry && (
@@ -109,6 +122,24 @@ export const HeaderRight = ({
             resizeMode={isIOS ? 'stretch' : 'cover'}
           />
         </TouchableOpacity>
+      )}
+      {showCurrency && (
+        <Pressable
+          disabled={currencyModal}
+          onPress={() => handleCurrencyModal()}
+          hitSlop={{top: 15, bottom: 15, left: 15, right: 15}}>
+          <ImageLoaderContainer
+            img={country.thumb}
+            style={{
+              width: 25,
+              height: 25,
+              borderRadius: 25 / 2,
+              borderWidth: 0.4,
+              borderColor: '#cdcdcd',
+            }}
+            resizeMode={isIOS ? 'stretch' : 'cover'}
+          />
+        </Pressable>
       )}
       {displayShare && (
         <Icon
@@ -140,16 +171,17 @@ export const HeaderRight = ({
       {showProductsSearch && (
         <Icon
           onPress={() => {
-            if(EXPO || ISTORES) {
-              // navigation.navigate('SearchTab');
+            if (EXPO || ISTORES) {
+              navigation.navigate('SearchTab');
+            } else {
+              dispatch(
+                showProductFilter({
+                  showColor: true,
+                  showSize: true,
+                  showModal: true,
+                }),
+              );
             }
-            dispatch(
-              showProductFilter({
-                showColor: true,
-                showSize: true,
-                showModal: true,
-              }),
-            );
           }}
           name="search1"
           type="antdesign"
@@ -188,7 +220,7 @@ export const HeaderRight = ({
       {showCart && (
         <View>
           <Pressable
-            onPress={() => navigation.navigate('CartTab')}
+            onPress={() => navigation.navigate('CartIndex')}
             hitSlop={{
               top: iconSizes.smaller,
               bottom: iconSizes.smaller,

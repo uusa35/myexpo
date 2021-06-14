@@ -7,13 +7,15 @@ import {
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import {map} from 'lodash';
 import {text, touchOpacity} from '../../../constants/sizes';
-import FastImage from 'react-native-fast-image';
 import validate from 'validate.js';
 import PropTypes from 'prop-types';
 import ImageLoaderContainer from '../ImageLoaderContainer';
 import {useDispatch, useSelector} from 'react-redux';
 import {getSearchProducts} from '../../../redux/actions/product';
-import {getSearchDesigners} from '../../../redux/actions/user';
+import {
+  getSearchCompanies,
+  getSearchDesigners,
+} from '../../../redux/actions/user';
 import {Icon} from 'react-native-elements';
 import {isRTL} from '../../../I18n';
 import {GlobalValuesContext} from '../../../redux/GlobalValuesContext';
@@ -40,7 +42,7 @@ const CategoryCollapseWidget = ({
         break;
       case 'user':
         dispatch(
-          getSearchDesigners({
+          getSearchCompanies({
             name: c.name,
             searchParams: {user_category_id: c.id},
             redirect: true,
@@ -250,5 +252,6 @@ const styles = StyleSheet.create({
     fontFamily: text.font,
     textAlign: 'left',
     fontSize: text.medium,
+    color: 'black',
   },
 });

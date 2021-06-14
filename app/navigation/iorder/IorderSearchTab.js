@@ -68,7 +68,7 @@ const IorderSearchTab = () => {
         name="PageThree"
         component={PageThreeScreen}
         options={() => ({
-          tabBarLabel: I18n.t('iorder.stores'),
+          tabBarLabel: I18n.t('istores.stores'),
           tabBarIcon: <IconTabBar focused={true} name="shop" type="entypo" />,
         })}
       />

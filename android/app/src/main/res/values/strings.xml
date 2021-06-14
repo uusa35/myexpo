@@ -3,4 +3,5 @@
     <string moduleConfig="true" name="CodePushDeploymentKey">_y3DddA9zr3dRUy2UZ-1nhcmW1dfqapGMsUnF6</string>
     <string name="facebook_app_id">2151249995182148</string>
     <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
 </resources>

@@ -18,7 +18,9 @@ import {icons} from '../../constants/images';
 import ExpoHomeScreen from '../../screens/home/ExpoHomeScreen';
 import IconTabBar from '../../components/IconTabBar';
 import AbatiHomeScreen from '../../screens/home/AbatiHomeScreen';
-
+import VideoIndexScreen from '../../screens/video/VideoIndexScreen';
+import ServiceIndexAllScreen from '../../screens/service/ServiceIndexAllScreen';
+import ProductIndexScreen from '../../screens/product/ProductIndexScreen';
 const MaterialTab = createMaterialBottomTabNavigator();
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -50,7 +52,7 @@ const AbatiMainTab = () => {
         options={() => ({
           tabBarLabel: ({focused}) => (
             <TextTabBar
-              showLabel={false}
+              showLabel={true}
               title={I18n.t('home')}
               focused={focused}
             />
@@ -59,8 +61,9 @@ const AbatiMainTab = () => {
             <IconTabBar
               type={'antdesign'}
               name={'home'}
+              T
               focused={focused}
-              showLabel={false}
+              showLabel={true}
             />
           ),
           tabBarVisible: true,
@@ -76,32 +79,12 @@ const AbatiMainTab = () => {
         )}
       />
       <Tab.Screen
-        name="CategoryTab"
-        component={CategoryIndexScreen}
-        options={({}) => ({
-          tabBarLabel: ({focused}) => (
-            <TextTabBar
-              showLabel={false}
-              title={I18n.t('sections')}
-              focused={focused}
-            />
-          ),
-          tabBarIcon: ({focused}) => (
-            <IconTabBar
-              focused={focused}
-              name="layers"
-              type="simplelineicons"
-            />
-          ),
-        })}
-      />
-      <Tab.Screen
         name="ProductTab"
         component={ProductIndexAllScreen}
         options={() => ({
           tabBarLabel: ({focused}) => (
             <TextTabBar
-              showLabel={false}
+              showLabel={true}
               title={I18n.t('market')}
               focused={focused}
             />
@@ -112,28 +95,39 @@ const AbatiMainTab = () => {
         })}
       />
       <Tab.Screen
-        name="CartTab"
-        component={DesigneratCartIndexScreen}
-        options={({route}) => ({
+        name="VideoTab"
+        component={VideoIndexScreen}
+        options={({}) => ({
           tabBarLabel: ({focused}) => (
             <TextTabBar
-              showLabel={false}
-              title={I18n.t('cart')}
+              showLabel={true}
+              title={I18n.t('videos')}
+              focused={focused}
+            />
+          ),
+          tabBarIcon: ({focused}) => (
+            <IconTabBar focused={focused} name="play-video" type="foundation" />
+          ),
+        })}
+      />
+      <Tab.Screen
+        name="ServiceTab"
+        component={ServiceIndexAllScreen}
+        options={() => ({
+          tabBarLabel: ({focused}) => (
+            <TextTabBar
+              showLabel={true}
+              title={I18n.t('services')}
               focused={focused}
             />
           ),
           tabBarIcon: ({focused}) => (
             <IconTabBar
               focused={focused}
-              name="cart-arrow-down"
-              type="font-awesome"
+              name="customerservice"
+              type="antdesign"
             />
           ),
-          tabBarBadge: cartLength ? cartLength : null,
-          tabBarBadgeStyle: {
-            backgroundColor: colors.btn_bg_theme_color,
-            color: colors.footer_theme_color,
-          },
         })}
       />
       <Tab.Screen
@@ -142,7 +136,7 @@ const AbatiMainTab = () => {
         options={() => ({
           tabBarLabel: ({focused}) => (
             <TextTabBar
-              showLabel={false}
+              showLabel={true}
               title={I18n.t('my_account')}
               focused={focused}
             />
@@ -155,5 +149,7 @@ const AbatiMainTab = () => {
     </Tab.Navigator>
   );
 };
+
+// main / products / videos / services / my account
 
 export default AbatiMainTab;

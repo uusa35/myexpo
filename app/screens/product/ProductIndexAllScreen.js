@@ -6,6 +6,7 @@ import BgContainer from '../../components/containers/BgContainer';
 import ElementsHorizontalList from '../../components/Lists/ElementsHorizontalList';
 import {filter, unionBy} from 'lodash';
 import finalPropsSelectorFactory from 'react-redux/lib/connect/selectorFactory';
+import {ABATI} from './../../../app.json';
 
 const ProductIndexAllScreen = () => {
   const {products, searchProducts, country} = useSelector(state => state);
@@ -27,16 +28,17 @@ const ProductIndexAllScreen = () => {
         elements={currentElements}
         searchParams={{country_id: country.id}}
         type="product"
-        productGalleryMode={true}
+        productGalleryMode={!ABATI}
         pageLimit={55}
+        showSKU={true}
         showRefresh={true}
         showFooter={true}
-        showSearch={false}
+        showSearch={ABATI}
         showSortSearch={true}
         showProductsFilter={true}
         showTitleIcons={true}
         showMore={true}
-        columns={3}
+        columns={ABATI ? 2 : 3}
       />
     </BgContainer>
   );

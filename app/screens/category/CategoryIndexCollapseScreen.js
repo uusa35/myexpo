@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import {text} from '../../constants/sizes';
 import {filter} from 'lodash';
 import CategoryCollapseWidget from '../../components/widgets/category/CategoryCollapseWidget';
+import {ISTORES, EXPO, IHOUSES} from './../../../app.json';
 
 const CategoryIndexCollapseScreen = () => {
   const {categories} = useSelector(state => state);
@@ -21,6 +22,7 @@ const CategoryIndexCollapseScreen = () => {
         <CategoryCollapseWidget
           category={item}
           key={item.id}
+          type={IHOUSES ? 'user' : 'product'}
           collapsed={index === 0}
         />
       )}

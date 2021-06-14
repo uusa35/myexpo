@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Linking,
   SafeAreaView,
+  Pressable,
 } from 'react-native';
 import I18n from './../../I18n';
 import {bottomContentInset, iconSizes, text} from './../../constants/sizes';
@@ -22,7 +23,7 @@ import {logout} from '../../redux/actions/user';
 import PropTypes from 'prop-types';
 
 const IstoresSideMenu = ({showLogo = true, navigation}) => {
-  const settings = useSelector(state => state.settings);
+  const {auth, settings} = useSelector(state => state);
   const {logo, company, menu_bg, youtube, colors, terms, policy} = settings;
   const {lang, guest} = useSelector(state => state);
   const dispatch = useDispatch();
@@ -31,6 +32,7 @@ const IstoresSideMenu = ({showLogo = true, navigation}) => {
     navigation.closeDrawer();
     navigation.navigate('Home');
   };
+
   return (
     <View
       style={{
@@ -70,14 +72,23 @@ const IstoresSideMenu = ({showLogo = true, navigation}) => {
               loadingIndicatorSource={{uri: logo}}
             />
           ) : null}
-
+          {guest ? (
+            <Text
+              style={[styles.mainMenuText, {color: colors.footer_theme_color}]}>
+              {company}
+            </Text>
+          ) : (
+            <Text
+              style={[styles.mainMenuText, {color: colors.footer_theme_color}]}>
+              {`${I18n.t('welcome')}  ${!guest ? auth.name : ''}`}
+            </Text>
+          )}
           <Text
-            style={[styles.mainMenuText, {color: colors.footer_theme_color}]}>
+            style={[
+              styles.mainMenuText,
+              {color: colors.footer_theme_color, paddingTop: 10},
+            ]}>
             {I18n.t('menu')}
-          </Text>
-          <Text
-            style={[styles.mainMenuText, {color: colors.footer_theme_color}]}>
-            {company}
           </Text>
           <View style={{width: '100%'}}>
             <Divider
@@ -87,6 +98,11 @@ const IstoresSideMenu = ({showLogo = true, navigation}) => {
                 borderColor: colors.btn_bg_theme_color,
               }}
             />
+            {__DEV__ && (
+              <Pressable onPress={() => navigation.navigate('Ihouse')}>
+                <Text style={{color: 'white'}}>Ihouse</Text>
+              </Pressable>
+            )}
             <TouchableOpacity
               onPress={() => goToHome()}
               style={[

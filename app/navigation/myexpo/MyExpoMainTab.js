@@ -21,6 +21,8 @@ import ContactusScreen from '../../screens/ContactusScreen';
 import PageOneScreen from '../../screens/PageOneScreen';
 import ExpoSettingsIndexScreen from '../../screens/setting/ExpoSettingsIndexScreen';
 import CategoryIndexCollapseScreen from '../../screens/category/CategoryIndexCollapseScreen';
+import {iconSizes} from '../../constants/sizes';
+
 const MaterialTab = createMaterialBottomTabNavigator();
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -89,7 +91,12 @@ const MyExpoMainTab = () => {
             />
           ),
           tabBarIcon: ({focused}) => (
-            <IconTabBar focused={focused} name="shopping-cart" type="feather" />
+            <IconTabBar
+              size={iconSizes.small}
+              focused={focused}
+              name="shoppingcart"
+              type="antdesign"
+            />
           ),
           tabBarBadge: cartLength ? cartLength : null,
           tabBarBadgeStyle: {

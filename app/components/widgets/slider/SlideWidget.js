@@ -68,9 +68,10 @@ const SlideWidget = ({slide}) => {
   return (
     <Pressable key={slide.id} onPress={() => handleClick()}>
       <ImageLoaderContainer
+        resizeMethod={'resize'}
         img={slide.large}
         style={{width, height: '100%'}}
-        resizeMode="cover"
+        resizeMode="stretch"
       />
     </Pressable>
   );

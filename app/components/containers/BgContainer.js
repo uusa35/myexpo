@@ -6,6 +6,8 @@ import {
   StatusBar,
   View,
   Alert,
+  Pressable,
+  Text,
 } from 'react-native';
 import {height, width} from '../../constants/sizes';
 import {images} from '../../constants/images';
@@ -13,7 +15,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import LoadingView from '../Loading/LoadingView';
 import {GlobalValuesContext} from '../../redux/GlobalValuesContext';
 import OneSignal from 'react-native-onesignal';
-import {APP_CASE} from '../../../app.json';
+import {APP_CASE, ABATI} from '../../../app.json';
 import {oneSignalId} from '../../env';
 import {getPathForDeepLinking} from '../../helpers';
 import I18n from './../../I18n';
@@ -31,6 +33,7 @@ import validate from 'validate.js';
 import AlertMessage from '../AlertMessage';
 import ProductFilterModal from '../../screens/product/ProductFilterModal';
 import {useNetInfo} from '@react-native-community/netinfo';
+import widgetStyles from '../widgets/widgetStyles';
 
 const BgContainer = ({
   children,
@@ -48,6 +51,8 @@ const BgContainer = ({
     isLoadingBoxedList,
     deviceId,
     message,
+    version,
+    settings,
   } = useSelector(state => state);
   const {mainBg, colors} = useContext(GlobalValuesContext);
   const [currentLoading, setCurrentLoading] = useState(
@@ -56,13 +61,12 @@ const BgContainer = ({
   const [bg, setBg] = useState();
   const [appState, setAppState] = useState(AppState.currentState);
   const [device, setDevice] = useState('');
+  const [currentVersion, setCurrentVersion] = useState(
+    isIOS ? settings.appleVersion : settings.androidVersion,
+  );
   const dispatch = useDispatch();
   const route = useRoute();
   const {isConnected} = useNetInfo();
-
-  useMemo(() => {
-    setBg(!showImage ? images.whiteBg : mainBg.includes('.') ? mainBg : img);
-  }, []);
 
   useMemo(() => {
     setCurrentLoading(
@@ -188,9 +192,29 @@ const BgContainer = ({
         <View style={{flex: 1, paddingTop: enableMargin ? marginVal : 0}}>
           <StatusBar
             animated={true}
-            backgroundColor={colors.footer_bg_theme_color}
-            barStyle={'light-content'}
+            backgroundColor={colors.header_theme_bg}
+            barStyle={ABATI ? 'dark-content' : 'dark-content'}
           />
+          {version !== currentVersion && (
+            <Pressable
+              style={{
+                paddingTop: 10,
+                paddingBottom: 10,
+                borderBottomColor: colors.btn_theme_bg_color,
+                borderBottomWidth: 0.5,
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: 'white',
+              }}
+              onPress={() =>
+                Linking.openURL(isIOS ? settings.apple : settings.android)
+              }>
+              <Text style={widgetStyles.headerFour}>
+                {I18n.t('please_update_the_app')}
+              </Text>
+            </Pressable>
+          )}
+
           {children}
         </View>
       )}

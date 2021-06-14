@@ -59,6 +59,24 @@ export const productWidget = {
       height: 373,
     },
   },
+  IHOUSES: {
+    smaller: {
+      width: 120,
+      height: 220,
+    },
+    small: {
+      width: 220,
+      height: 293,
+    },
+    medium: {
+      width: 250,
+      height: 333,
+    },
+    large: {
+      width: 280,
+      height: 373,
+    },
+  },
   MYEXPO: {
     smaller: {
       width: 120,
@@ -146,6 +164,29 @@ export const userWidget = {
     radius: 5,
   },
   ISTORES: {
+    xsmall: {
+      width: 80,
+      height: 80,
+    },
+    small: {
+      width: 100,
+      height: 100,
+    },
+    smaller: {
+      width: 120,
+      height: 120,
+    },
+    medium: {
+      width: 150,
+      height: 150,
+    },
+    large: {
+      width: 200,
+      height: 200,
+    },
+    radius: 5,
+  },
+  IHOUSES: {
     xsmall: {
       width: 80,
       height: 80,
@@ -269,6 +310,20 @@ export const categoryWidget = {
       height: 200,
     },
   },
+  IHOUSES: {
+    small: {
+      width: 80,
+      height: 80,
+    },
+    medium: {
+      width: 150,
+      height: 150,
+    },
+    large: {
+      width: 200,
+      height: 200,
+    },
+  },
   MYEXPO: {
     small: {
       width: 80,
@@ -369,6 +424,8 @@ export const getFont = () => {
       return isRTL ? SEVENTH_AR_FONT : FIFTH_EN_FONT;
     case 'EXPO':
       return isRTL ? FIRST_AR_FONT : THIRD_EN_FONT;
+    case 'IHOUSES':
+      return isRTL ? FIRST_AR_FONT : THIRD_EN_FONT;
     default:
       return isRTL ? FIRST_AR_FONT : FIFTH_EN_FONT;
   }
@@ -408,6 +465,25 @@ export const formWidget = {
     inputRadius: 4,
   },
   ISTORES: {
+    smaller: {
+      width: 120,
+      height: 50,
+    },
+    small: {
+      width: 220,
+      height: 293,
+    },
+    medium: {
+      width: 250,
+      height: 333,
+    },
+    large: {
+      width: 280,
+      height: 373,
+    },
+    inputRadius: 4,
+  },
+  IHOUSES: {
     smaller: {
       width: 120,
       height: 50,

@@ -7,7 +7,7 @@ import {useDispatch} from 'react-redux';
 
 const CompanySearchForm = ({title = 'search'}) => {
   const dispatch = useDispatch();
-  [search, setSearch] = useState('');
+  const [search, setSearch] = useState('');
   return (
     <Input
       placeholder={I18n.t(title)}
@@ -34,7 +34,7 @@ const CompanySearchForm = ({title = 'search'}) => {
           }
         />
       }
-      containerStyle={{paddingTop: '8%'}}
+      // containerStyle={{paddingTop: '8%'}}
       inputContainerStyle={{
         backgroundColor: '#E4E4E5',
         paddingRight: 15,

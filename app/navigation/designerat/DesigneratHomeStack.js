@@ -51,6 +51,8 @@ import DesigneratCelebrityShowScreen from '../../screens/celebrity/DesigneratCel
 import DesigneratCompanyShowScreen from '../../screens/company/DesigneratCompanyShowScreen';
 import StatisticIndexScreen from '../../screens/setting/StatisticIndexScreen';
 import PanoramaShowScreen from '../../screens/PanoramaShowScreen';
+import CartGuestScreen from '../../screens/cart/CartGuestScreen';
+import FaqIndexCollapseScreen from '../../screens/faq/FaqIndexCollapseScreen';
 
 const Stack = createStackNavigator();
 const DesigneratHomeStack = () => {
@@ -277,6 +279,15 @@ const DesigneratHomeStack = () => {
         }}
       />
       <Stack.Screen
+        name="CartGuest"
+        component={CartGuestScreen}
+        options={{
+          headerTitle: () => (
+            <HeaderMiddle title={I18n.t('continue_as_guest')} />
+          ),
+        }}
+      />
+      <Stack.Screen
         name="CartIndexForm"
         component={DesigneratCartIndexFormScreen}
         options={{
@@ -393,6 +404,15 @@ const DesigneratHomeStack = () => {
         component={PolicyScreen}
         options={{
           headerTitle: () => <HeaderMiddle title={I18n.t('policies')} />,
+        }}
+      />
+      <Stack.Screen
+        name={'Faq'}
+        component={FaqIndexCollapseScreen}
+        options={{
+          headerRight: () => <HeaderRight />,
+          headerTitle: () => <HeaderMiddle title={I18n.t('faqs')} />,
+          headerBackTitle: () => null,
         }}
       />
     </Stack.Navigator>

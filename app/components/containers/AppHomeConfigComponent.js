@@ -23,17 +23,15 @@ const AppHomeConfigComponent = () => {
   });
 
   return (
-    <Fragment>
-      <ConfirmationModal
-        handleConfirmClick={() => BackHandler.exitApp()}
-        confirmTitle={I18n.t('confirm')}
-        message={I18n.t('do_you_want_to_exit_the_app')}
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
-        iconName="exclamationcircleo"
-        iconType="antdesign"
-      />
-    </Fragment>
+    <ConfirmationModal
+      handleConfirmClick={() => BackHandler.exitApp()}
+      confirmTitle={I18n.t('confirm')}
+      message={I18n.t('do_you_want_to_exit_the_app')}
+      modalVisible={modalVisible}
+      setModalVisible={setModalVisible}
+      iconName="exclamationcircleo"
+      iconType="antdesign"
+    />
   );
 };
 

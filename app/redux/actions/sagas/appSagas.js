@@ -13,21 +13,31 @@ import {
 } from './settingSagas';
 import {designeratBootStrap} from './designerat/appSagas';
 import {expoBootStrap} from './expo/appSagas';
-import {DESIGNERAT, EXPO, ISTORES} from './../../../../app.json';
-import {iorderBootStrap} from './iorder/appSagas';
+import {
+  DESIGNERAT,
+  EXPO,
+  ISTORES,
+  IHOUSES,
+  ABATI,
+} from './../../../../app.json';
+import {istoresBootStrap} from './istores/appSagas';
+import {abatiBootStrap} from './abati/appSagas';
 
 export function* startAppBootStrap() {
   try {
     const {bootStrapped} = yield select();
     yield call(defaultLang);
-    yield call(setVersion);
     if (!bootStrapped) {
       if (EXPO) {
         yield call(expoBootStrap);
       } else if (DESIGNERAT) {
         yield call(designeratBootStrap);
+      } else if (ABATI) {
+        yield call(abatiBootStrap);
       } else if (ISTORES) {
-        yield call(iorderBootStrap);
+        yield call(istoresBootStrap);
+      } else if (IHOUSES) {
+        yield call(istoresBootStrap);
       }
     }
   } catch (e) {

@@ -15,13 +15,12 @@ import {isIOS} from '../../../constants';
 import {productWidget} from '../../../constants/sizes';
 import {APP_CASE} from '../../../../app.json';
 import {useNavigation} from '@react-navigation/native';
+import {getDesigner} from '../../../redux/actions/user';
 
 const ProductInfoWidgetMainTitle = ({element}) => {
   const dispatch = useDispatch();
-  const {colors, exchange_rate, currency_symbol} = useContext(
-    GlobalValuesContext,
-  );
-  const navigation = useNavigation();
+  const {colors, exchange_rate, currency_symbol} =
+    useContext(GlobalValuesContext);
   const {token, guest} = useSelector(state => state);
   const [favorite, setFavorite] = useState(element.isFavorite);
 
@@ -37,12 +36,13 @@ const ProductInfoWidgetMainTitle = ({element}) => {
         alignItems: 'center',
       }}
       onPress={() =>
-        navigation.navigate('DesignerShow', {
-          name: element.user.slug,
-          id: element.user.id,
-          model: 'user',
-          type: 'designer',
-        })
+        dispatch(
+          getDesigner({
+            id: element.user_id,
+            searchParams: {user_id: element.user_id},
+            redirect: true,
+          }),
+        )
       }>
       <ImageLoaderContainer
         img={element.user.thumb}

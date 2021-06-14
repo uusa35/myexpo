@@ -40,21 +40,25 @@ static void InitializeFlipper(UIApplication *application) {
                                                    moduleName:@"myexpo"
                                             initialProperties:nil];
 
-  rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
+  if (@available(iOS 13.0, *)) {
+      rootView.backgroundColor = [UIColor systemBackgroundColor];
+  } else {
+      rootView.backgroundColor = [UIColor whiteColor];
+  }
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
-//   firebase
-      if ([FIRApp defaultApp] == nil) {
-        [FIRApp configure];
-      }
-  // splash screen
-  [RNSplashScreen show];
-  // app sleep for the first time loading
-  //[NSThread sleepForTimeInterval:2.0];
+  //   firebase
+        if ([FIRApp defaultApp] == nil) {
+          [FIRApp configure];
+        }
+    // splash screen
+    [RNSplashScreen show];
+    // app sleep for the first time loading
+    //[NSThread sleepForTimeInterval:2.0];
   return YES;
 }
 

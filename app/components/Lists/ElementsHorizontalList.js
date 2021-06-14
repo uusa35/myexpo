@@ -96,6 +96,7 @@ const ElementsHorizontalList = ({
   customHeight = 240,
   pageLimit = 10,
   productGalleryMode = false,
+  showSKU = false,
 }) => {
   const [items, setItems] = useState(elements);
   const [originalItems, setOriginalItems] = useState(elements);
@@ -423,7 +424,7 @@ const ElementsHorizontalList = ({
                 element={item}
                 showName={showName}
                 key={item.id}
-                showSku={false}
+                showSku={showSKU}
                 handleClickProductWidget={handleClick}
               />
             );

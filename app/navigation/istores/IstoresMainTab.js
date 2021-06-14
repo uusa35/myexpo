@@ -1,4 +1,5 @@
 import React, {useContext} from 'react';
+import {Platform} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -23,6 +24,7 @@ import PageOneScreen from '../../screens/PageOneScreen';
 import ExpoSettingsIndexScreen from '../../screens/setting/ExpoSettingsIndexScreen';
 import CategoryIndexCollapseScreen from '../../screens/category/CategoryIndexCollapseScreen';
 import {iconSizes} from '../../constants/sizes';
+import IhousesHomeScreen from '../../screens/home/IhousesHomeScreen';
 
 const MaterialTab = createMaterialBottomTabNavigator();
 const Tab = createBottomTabNavigator();
@@ -44,6 +46,12 @@ const IstoresMainTab = () => {
         },
         activeBackgroundColor: colors.footer_bg_theme_color,
         inactiveBackgroundColor: colors.footer_bg_theme_color,
+        tabStyle: {
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          maxHeight: 43,
+        },
       }}
       activeColor={colors.footer_theme_color}
       inactiveColor="white"
@@ -72,15 +80,6 @@ const IstoresMainTab = () => {
           ),
           tabBarVisible: true,
         })}
-        headerLeft={({navigation}) => (
-          <Icon
-            menu="menu"
-            type="feather"
-            size={25}
-            style={[{color: 'black'}]}
-            onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
-          />
-        )}
       />
       <Tab.Screen
         name="CartTab"

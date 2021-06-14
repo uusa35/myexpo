@@ -67,6 +67,7 @@ export default function* rootSaga() {
     fork(triggers.triggerGetCoupon),
     fork(triggers.triggerCreateMyFatoorahPaymentUrl),
     fork(triggers.triggerCreateTapPaymentUrl),
+    fork(triggers.triggerCreateIbookeyPaymentUrl),
     fork(triggers.triggerCreateCashOnDeliveryPayment),
     fork(triggers.triggerGoDeepLinking),
     fork(triggers.triggerAddComment),

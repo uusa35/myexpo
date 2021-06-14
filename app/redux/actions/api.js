@@ -27,6 +27,13 @@ export async function getSettings() {
     .catch(e => e.response.data.message);
 }
 
+export async function getFaqs() {
+  return await axiosInstance
+    .get('faq')
+    .then(r => r.data)
+    .catch(e => e.response.data.message);
+}
+
 export async function getHomeCategories(params) {
   return await axiosInstance
     .get(`category`, {params})
@@ -199,6 +206,13 @@ export async function getCountries() {
     .catch(e => e.response.data.message);
 }
 
+export async function getCurrencies() {
+  return await axiosInstance
+    .get(`currency`)
+    .then(r => r.data)
+    .catch(e => e.response.data.message);
+}
+
 export async function getUser(id) {
   return await axiosInstance
     .get(`user/${id}`)
@@ -280,6 +294,14 @@ export async function makeTapPayment(params) {
   // console.log('params', params);
   return await axiosInstance
     .post(`tap/payment`, params)
+    .then(r => r.data)
+    .catch(e => e.response.data.message);
+}
+
+export async function makeIbookeyPayment(params) {
+  // console.log('params', params);
+  return await axiosInstance
+    .post(`ibooky/payment`, params)
     .then(r => r.data)
     .catch(e => e.response.data.message);
 }
@@ -662,6 +684,29 @@ export async function submitCreateNewProduct(params) {
   });
   return await axiosInstance
     .post(`product`, formData)
+    .then(r => r.data)
+    .catch(e => e.response.data.message);
+}
+
+export async function getGovernates(lang) {
+  return await axiosInstance(
+    `https://api.mirsalapp.com/rest/areas?lang=${lang}`,
+  )
+    .then(r => r.data)
+    .catch(e => e.response.data.message);
+}
+
+export async function getDeliveryFees(values) {
+  const formData = new FormData();
+  formData.append('receive_on_branch', values.receive_on_branch);
+  formData.append('country_id', values.country_id);
+  formData.append('merchant_id', values.merchant_id);
+  formData.append('cart_items_no', values.cart_items_no);
+  map(values.pickups, (c, i) => {
+    formData.append(`pickups[${i}]`, c);
+  });
+  return await axiosInstance
+    .post(`delivery/calculation`, formData)
     .then(r => r.data)
     .catch(e => e.response.data.message);
 }

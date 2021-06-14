@@ -99,18 +99,26 @@ const DesignerShowScreen = ({navigation}) => {
             onRefresh={() => handleRefresh()}
           />
         }>
-        {designer.banner && !validate.isEmpty(designer.banner) ? (
-          <ImageLoaderContainer
-            img={designer.banner}
-            style={{width: '100%', height: 200}}
-            resizeMode={'cover'}
-          />
+        {!validate.isEmpty(designer.slides) ? (
+          <View style={{width: width}}>
+            <MainSliderWidget elements={designer.slides} />
+          </View>
         ) : (
-          <ImageLoaderContainer
-            img={logo}
-            style={{width: '100%', height: 200}}
-            resizeMode={'cover'}
-          />
+          <>
+            {designer.banner && !validate.isEmpty(designer.banner) ? (
+              <ImageLoaderContainer
+                img={designer.banner}
+                style={{width: '100%', height: 200}}
+                resizeMode={'cover'}
+              />
+            ) : (
+              <ImageLoaderContainer
+                img={logo}
+                style={{width: '100%', height: 200}}
+                resizeMode={'cover'}
+              />
+            )}
+          </>
         )}
         <View style={styles.wrapper}>
           <TriggeringView

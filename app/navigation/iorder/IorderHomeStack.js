@@ -112,7 +112,7 @@ const IorderHomeStack = () => {
       <Stack.Screen
         name={'SearchTab'}
         options={{
-          headerTitle: () => <HeaderMiddle title={I18n.t('expo')} />,
+          headerTitle: () => <HeaderMiddle title={I18n.t('istores.istores')} />,
         }}
         component={IorderSearchTab}
       />

@@ -53,7 +53,13 @@ import StatisticIndexScreen from '../../screens/setting/StatisticIndexScreen';
 import CalendarIndexScreen from '../../screens/calender/CalendarIndexScreen';
 import DesignerShowScreen from '../../screens/designer/expo/DesignerShowScreen';
 import PanoramaShowScreen from '../../screens/PanoramaShowScreen';
+import CartGuestScreen from '../../screens/cart/CartGuestScreen';
+import FaqIndexCollapseScreen from '../../screens/faq/FaqIndexCollapseScreen';
+import VideoShowScreen from '../../screens/video/VideoShowScreen';
+import ServiceShowScreen from '../../screens/service/ServiceShowScreen';
+import CategoryIndexScreen from '../../screens/category/CategoryIndexScreen';
 const Stack = createStackNavigator();
+
 const AbatiHomeStack = () => {
   const {colors} = useContext(GlobalValuesContext);
   return (
@@ -86,13 +92,7 @@ const AbatiHomeStack = () => {
       <Stack.Screen
         options={({navigation}) => ({
           headerLeft: () => (
-            <Icon
-              name="menu"
-              type="material"
-              size={iconSizes.small}
-              color={colors.footer_theme_color}
-              onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
-            />
+            <HeaderLeft showSideMenu={true} showCountry={true} />
           ),
           headerTitle: () => <HeaderMiddle showLogo={true} />,
           headerRight: () => (
@@ -232,6 +232,16 @@ const AbatiHomeStack = () => {
         component={DesigneratNormalProductShowScreen}
       />
       <Stack.Screen
+        name={'ServiceShow'}
+        options={{
+          headerTitle: () => <HeaderMiddle />,
+          headerRight: () => (
+            <HeaderRight showCart={true} displayShare={true} />
+          ),
+        }}
+        component={ServiceShowScreen}
+      />
+      <Stack.Screen
         name={'SearchProductIndex'}
         options={{
           headerTitle: () => <HeaderMiddle />,
@@ -240,6 +250,16 @@ const AbatiHomeStack = () => {
           ),
         }}
         component={SearchProductIndexScreen}
+      />
+      <Stack.Screen
+        name={'VideoShow'}
+        options={{
+          headerTitle: () => <HeaderMiddle />,
+          headerRight: () => (
+            <HeaderRight showCart={true} displayShare={true} />
+          ),
+        }}
+        component={VideoShowScreen}
       />
       <Stack.Screen
         name="FavoriteProductIndex"
@@ -269,10 +289,25 @@ const AbatiHomeStack = () => {
         }}
         component={ContactusScreen}
       />
-
+      <Stack.Screen
+        name="CartGuest"
+        component={CartGuestScreen}
+        options={{
+          headerTitle: () => (
+            <HeaderMiddle title={I18n.t('continue_as_guest')} />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="CategoryIndex"
+        component={CategoryIndexScreen}
+        options={{
+          headerTitle: () => <HeaderMiddle title={I18n.t('categories')} />,
+        }}
+      />
       <Stack.Screen
         name="CartIndex"
-        component={CartIndexScreen}
+        component={DesigneratCartIndexScreen}
         options={{
           headerTitle: () => <HeaderMiddle title={I18n.t('cart')} />,
         }}
@@ -387,6 +422,15 @@ const AbatiHomeStack = () => {
           headerTitle: () => <HeaderMiddle title={I18n.t('panorama')} />,
         }}
         component={PanoramaShowScreen}
+      />
+      <Stack.Screen
+        name={'Faq'}
+        component={FaqIndexCollapseScreen}
+        options={{
+          headerRight: () => <HeaderRight />,
+          headerTitle: () => <HeaderMiddle title={I18n.t('faqs')} />,
+          headerBackTitle: () => null,
+        }}
       />
     </Stack.Navigator>
   );

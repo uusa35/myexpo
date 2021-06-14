@@ -254,6 +254,10 @@
       "sha1": "775ca60f44bcf9369b75a542acfcf58d4e5fa5d2"
     },
     {
+      "path": "assets/icons/bag_1.png",
+      "sha1": "d6538f40e220d634a11e83be1c7475c693dbcfaa"
+    },
+    {
       "path": "assets/icons/brands.png",
       "sha1": "a7be950b2aa0ad71788825446f9b30160ad87ff6"
     },
@@ -272,6 +276,10 @@
     {
       "path": "assets/icons/cart_5.png",
       "sha1": "4de52848c838c84d55a1fd86ce97b21d87bb7d32"
+    },
+    {
+      "path": "assets/icons/cart_6.png",
+      "sha1": "a2f1cced5e80fcaa39d45438a03d3f93cbb591f5"
     },
     {
       "path": "assets/icons/categories.png",
@@ -296,6 +304,14 @@
     {
       "path": "assets/icons/contactus.png",
       "sha1": "61d289a84f3fbb0581ac20c9626aabf87980b5ee"
+    },
+    {
+      "path": "assets/icons/delivery_1.png",
+      "sha1": "de2b201e69cfa5b9626bc9d80a8c77a7333a65b3"
+    },
+    {
+      "path": "assets/icons/delivery_2.png",
+      "sha1": "4b2666139d1baf60e3bd47d776a5a935120668d5"
     },
     {
       "path": "assets/icons/designerat.png",
@@ -424,6 +440,10 @@
     {
       "path": "assets/images/homekey.jpeg",
       "sha1": "096eebf273bccd3df712f344f518e6dd60eeee03"
+    },
+    {
+      "path": "assets/images/knet-visa.png",
+      "sha1": "33ab5397d7ef73e531d112ab4a4f88844f1eec7d"
     },
     {
       "path": "assets/images/loading.gif",

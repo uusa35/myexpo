@@ -7,15 +7,14 @@ import ProductCategoryHorizontalRoundedWidget from '../../components/widgets/cat
 import I18n from '../../I18n';
 import ExpoMainSliderWidget from '../../components/widgets/slider/ExpoMainSliderWidget';
 import ExpoDesignerHorizontalWidget from '../../components/widgets/user/ExpoDesignerHorizontalWidget';
-import ExpoHomeScreenBtns from '../../components/widgets/home/ExpoHomeScreenBtns';
 import BgContainer from '../../components/containers/BgContainer';
 import AppHomeConfigComponent from '../../components/containers/AppHomeConfigComponent';
-import {bottomContentInset, height} from '../../constants/sizes';
-import {isIOS} from '../../constants';
+import {bottomContentInset} from '../../constants/sizes';
 import CompanyCategoryHorizontalWidget from '../../components/widgets/category/CompanyCategoryHorizontalWidget';
 import ProductHorizontalWidget from '../../components/widgets/product/ProductHorizontalWidget';
 import validate from 'validate.js';
 import BrandHorizontalWidget from '../../components/widgets/brand/BrandHorizontalWidget';
+import {filter} from 'lodash';
 
 const IstoresHomeScreen = () => {
   const {
@@ -27,13 +26,16 @@ const IstoresHomeScreen = () => {
     homeDesigners,
     homeCelebrities,
     homeProducts,
+    bestSaleProducts,
+    latestProducts,
+    hotDealsProducts,
     homeCompanies,
     splashes,
-    show_commercials,
     services,
     showIntroduction,
     mainBg,
     country,
+    areas,
     settings,
   } = useSelector(state => state);
   const dispatch = useDispatch();
@@ -42,7 +44,6 @@ const IstoresHomeScreen = () => {
 
   return (
     <BgContainer showImage={true} white={true}>
-      <AppHomeConfigComponent />
       {settings.splash_on && (
         <IntroductionWidget
           elements={splashes}
@@ -52,6 +53,7 @@ const IstoresHomeScreen = () => {
       )}
       <ScrollView
         contentContainerStyle={{
+          marginTop: 10,
           backgroundColor: 'transparent',
         }}
         contentInset={{bottom: bottomContentInset}}
@@ -89,23 +91,27 @@ const IstoresHomeScreen = () => {
             type="companies"
           />
         )}
-        <ExpoDesignerHorizontalWidget
-          elements={homeDesigners}
-          showName={true}
-          name={I18n.t('istores.participated_stores')}
-          title={I18n.t('istores.participated_stores')}
-          searchElements={{is_designer: 1, country_id: country.id}}
-        />
-        <ExpoDesignerHorizontalWidget
-          elements={homeCompanies}
-          showName={true}
-          name={I18n.t('istores.small_business')}
-          title={I18n.t('istores.small_business')}
-          searchElements={{is_company: 1, country_id: country.id}}
-        />
+        {homeCompanies && (
+          <ExpoDesignerHorizontalWidget
+            elements={homeCompanies}
+            showName={true}
+            name={I18n.t('istores.participated_stores')}
+            title={I18n.t('istores.participated_stores')}
+            searchElements={{is_company: 1, country_id: country.id}}
+          />
+        )}
+        {homeDesigners && (
+          <ExpoDesignerHorizontalWidget
+            elements={homeDesigners}
+            showName={true}
+            name={I18n.t('istores.small_business')}
+            title={I18n.t('istores.small_business')}
+            searchElements={{is_designer: 1, country_id: country.id}}
+          />
+        )}
         {homeCategories && (
           <ProductCategoryHorizontalRoundedWidget
-            elements={homeCategories}
+            elements={filter(homeCategories, c => c.is_product)}
             showName={true}
             title={I18n.t('istores.product_categories')}
             type="products"
@@ -115,20 +121,34 @@ const IstoresHomeScreen = () => {
           <ProductHorizontalWidget
             elements={homeProducts}
             showName={true}
-            title={I18n.t('istores.recentest_products')}
-            searchParams={{on_home: 1, country_id: country.id, on_sale: 1}}
+            title={I18n.t('chosen_products')}
+            searchParams={{on_home: 1, country_id: country.id}}
           />
         )}
-        {homeProducts && (
+        {latestProducts && (
           <ProductHorizontalWidget
-            elements={homeProducts}
+            elements={latestProducts}
             showName={true}
-            title={I18n.t('istores.on_sale_products')}
-            searchParams={{on_home: 1, country_id: country.id, on_sale: 1}}
+            title={I18n.t('recentest_products')}
+            searchParams={{on_home: 1, country_id: country.id}}
+          />
+        )}
+        {hotDealsProducts && (
+          <ProductHorizontalWidget
+            elements={hotDealsProducts}
+            showName={true}
+            title={I18n.t('hot_deals_products')}
+            searchParams={{
+              on_home: 1,
+              country_id: country.id,
+              on_sale: 1,
+              hot_deal: 1,
+            }}
           />
         )}
         {/*<ExpoHomeScreenBtns />*/}
       </ScrollView>
+      <AppHomeConfigComponent />
     </BgContainer>
   );
 };

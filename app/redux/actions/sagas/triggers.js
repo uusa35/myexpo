@@ -94,6 +94,13 @@ export function* triggerCreateTapPaymentUrl() {
   );
 }
 
+export function* triggerCreateIbookeyPaymentUrl() {
+  yield takeLatest(
+    actions.CREATE_IBOOKEY_PAYMENT_URL,
+    requestSaga.startCreateIbookeyPaymentUrlScenario,
+  );
+}
+
 export function* triggerCreateCashOnDeliveryPayment() {
   yield takeLatest(
     actions.CASH_ON_DELIVERY,

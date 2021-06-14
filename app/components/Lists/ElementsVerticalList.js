@@ -56,11 +56,14 @@ import {HOMEKEY, EXPO} from '../../../app';
 import ClassifiedsMapView from '../widgets/map/ClassifiedsMapView';
 import SortByModal from '../widgets/search/SortByModal';
 import {
+  SET_COMMERCIALS,
   SET_COMPANIES,
   SET_DESIGNERS,
   SET_PRODUCTS,
   SET_SERVICES,
 } from '../../redux/actions/types';
+import {setCommercial} from '../../redux/actions/commercial';
+import CommercialWidget from '../widgets/commercial/CommercialWidget';
 
 const ElementsVerticalList = ({
   elements,
@@ -84,6 +87,7 @@ const ElementsVerticalList = ({
   customHeight = 240,
   pageLimit = 10,
   scrollEnabled = showFooter,
+  groupName = '',
 }) => {
   const [items, setItems] = useState(elements);
   const [originalItems, setOriginalItems] = useState(elements);
@@ -194,6 +198,21 @@ const ElementsVerticalList = ({
             })
             .catch(e => e);
           break;
+        case 'commercial':
+          return axiosInstance(`commercial?page=${page}`, {
+            params,
+          })
+            .then(r => {
+              if (!validate.isEmpty(r.data)) {
+                const elementsGroup = uniqBy(items.concat(r.data), 'id');
+                dispatch({type: SET_COMMERCIALS, payload: elementsGroup});
+                setItems(elementsGroup);
+              } else {
+                setIsLoading(false);
+              }
+            })
+            .catch(e => e);
+          break;
         default:
           null;
       }
@@ -288,7 +307,9 @@ const ElementsVerticalList = ({
     if (showFooter) {
       return !validate.isEmpty(items) ? (
         <NoMoreElements
-          title={I18n.t('no_more_', {item: I18n.t(type)})}
+          title={I18n.t('no_more_', {
+            item: I18n.t(groupName ? groupName : type),
+          })}
           isLoading={isLoading}
         />
       ) : (
@@ -430,6 +451,9 @@ const ElementsVerticalList = ({
           }),
         );
         break;
+      case 'commercial':
+        return dispatch(setCommercial(element));
+        break;
       default:
         null;
     }
@@ -484,6 +508,9 @@ const ElementsVerticalList = ({
         break;
       case 'designer':
         return <UserWidgetVertical user={item} showName={true} />;
+        break;
+      case 'commercial':
+        return <CommercialWidget element={item} />;
         break;
       default:
         return (

@@ -23,7 +23,7 @@ import PropTypes from 'prop-types';
 import {icons} from '../../constants/images';
 
 const MyExpoSideMenu = ({showLogo = true, navigation}) => {
-  const settings = useSelector(state => state.settings);
+  const {auth, settings} = useSelector(state => state);
   const {logo, company, menu_bg, youtube, colors, terms, policy} = settings;
   const {lang, guest} = useSelector(state => state);
   const dispatch = useDispatch();
@@ -32,6 +32,7 @@ const MyExpoSideMenu = ({showLogo = true, navigation}) => {
     navigation.closeDrawer();
     navigation.navigate('Home');
   };
+
   return (
     <View
       style={{
@@ -71,14 +72,23 @@ const MyExpoSideMenu = ({showLogo = true, navigation}) => {
               loadingIndicatorSource={{uri: logo}}
             />
           ) : null}
-
+          {guest ? (
+            <Text
+              style={[styles.mainMenuText, {color: colors.footer_theme_color}]}>
+              {company}
+            </Text>
+          ) : (
+            <Text
+              style={[styles.mainMenuText, {color: colors.footer_theme_color}]}>
+              {`${I18n.t('welcome')}  ${!guest ? auth.name : ''}`}
+            </Text>
+          )}
           <Text
-            style={[styles.mainMenuText, {color: colors.footer_theme_color}]}>
+            style={[
+              styles.mainMenuText,
+              {color: colors.footer_theme_color, paddingTop: 10},
+            ]}>
             {I18n.t('menu')}
-          </Text>
-          <Text
-            style={[styles.mainMenuText, {color: colors.footer_theme_color}]}>
-            {company}
           </Text>
           <View style={{width: '100%'}}>
             <Divider

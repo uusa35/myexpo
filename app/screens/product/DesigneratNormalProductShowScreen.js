@@ -21,7 +21,7 @@ import ActionBtnWidget from '../../components/widgets/ActionBtnWidget';
 import VideosVerticalWidget from '../../components/widgets/video/VideosVerticalWidget';
 import BgContainer from '../../components/containers/BgContainer';
 import KeyBoardContainer from '../../components/containers/KeyBoardContainer';
-import {APP_CASE, DESIGNERAT} from './../../../app';
+import {APP_CASE, DESIGNERAT, EXPO} from './../../../app';
 import {useNavigation} from '@react-navigation/native';
 import widgetStyles from '../../components/widgets/widgetStyles';
 import DesigneratAddToCartStickyFooter from '../../components/widgets/product/DesigneratAddToCartStickyFooter';
@@ -85,7 +85,7 @@ const DesineratNormalProductShowScreen = ({showRating = true}) => {
         handleRefresh={() => handleRefresh()}
         showRefresh={true}>
         <ImagesWidget
-          sku={product.sku}
+          sku={!EXPO ? product.sku : null}
           qr={product.qr}
           elements={product.images
             .concat({id: product.id, large: product.large})
@@ -99,7 +99,8 @@ const DesineratNormalProductShowScreen = ({showRating = true}) => {
           hasStock={product.has_stock}
           directPurchase={product.directPurchase}
         />
-        <View style={{alignSelf: 'center', width: '95%'}}>
+        <View
+          style={{alignSelf: 'center', width: '95%', backgroundColor: 'white'}}>
           {product.brand && (
             <View
               style={{
@@ -124,7 +125,9 @@ const DesineratNormalProductShowScreen = ({showRating = true}) => {
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}>
-                <Text style={{fontFamily: text.font}}>{I18n.t('brand')}</Text>
+                <Text style={{fontFamily: text.font, color: 'black'}}>
+                  {I18n.t('brand')}
+                </Text>
               </View>
               <View
                 style={{
@@ -166,6 +169,7 @@ const DesineratNormalProductShowScreen = ({showRating = true}) => {
               onFinishRating={rating => handleRating(rating)}
               imageSize={iconSizes.smaller}
             />
+
             <Text
               style={[
                 widgetStyles.headerFour,
@@ -204,7 +208,7 @@ const DesineratNormalProductShowScreen = ({showRating = true}) => {
             ) : null}
             {product.user ? (
               <ProductInfoWidgetElement
-                elementName="designer"
+                elementName="company"
                 name={product.user.slug}
                 link={() =>
                   dispatch(

@@ -9,7 +9,7 @@ const IorderMainDrawer = () => {
   return (
     <Drawer.Navigator
       initialRouteName="Home"
-      drawerContent={(props) => <IorderSideMenu {...props} showLogo={true} />}>
+      drawerContent={props => <IorderSideMenu {...props} showLogo={true} />}>
       <Drawer.Screen name="HomeStack" component={IorderMainStack} />
     </Drawer.Navigator>
   );

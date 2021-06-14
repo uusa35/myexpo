@@ -6,6 +6,8 @@ import {
   DESIGNERAT_PUSHER_KEY,
   EXPO_ONE_SIGNAL_APP_ID,
   DESIGNERAT_ONE_SIGNAL_APP_ID,
+  ISTORES_ONE_SIGNAL_APP_ID,
+  IHOUSES_ONE_SIGNAL_APP_ID,
   ABATI_ONE_SIGNAL_APP_ID,
 } from '../app';
 import Pusher from 'pusher-js/react-native';
@@ -18,6 +20,8 @@ const appUrl = () => {
       return 'http://myexpo.live/';
     case 'ISTORES':
       return 'http://i-stores.store/';
+    case 'IHOUSES':
+      return 'http://i-houses.net/';
     case 'ABATI':
       return 'http://abatiapp.com/';
     default:
@@ -50,7 +54,9 @@ const oneSignalAppId = () => {
     case 'MYEXPO':
       return EXPO_ONE_SIGNAL_APP_ID;
     case 'ISTORES':
-      return EXPO_ONE_SIGNAL_APP_ID;
+      return ISTORES_ONE_SIGNAL_APP_ID;
+    case 'IHOUSES':
+      return IHOUSES_ONE_SIGNAL_APP_ID;
     case 'ABATI':
       return ABATI_ONE_SIGNAL_APP_ID;
     default:

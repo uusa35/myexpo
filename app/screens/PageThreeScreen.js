@@ -14,13 +14,15 @@ const PageThreeScreen = () => {
   const [currentElements, setCurrentElements] = useState([]);
 
   useEffect(() => {
-    dispatch(getSearchCompanies({searchParams: {country_id: country.id}}));
+    dispatch(
+      getSearchCompanies({
+        searchParams: {country_id: country.id, is_company: 1},
+      }),
+    );
   }, []);
 
   useMemo(() => {
-    // if (!validate.isEmpty(companies)) {
     setCurrentElements(companies);
-    // }
   }, [companies]);
 
   return (
@@ -28,12 +30,14 @@ const PageThreeScreen = () => {
       <ElementsVerticalList
         elements={currentElements}
         showMore={true}
+        showRefresh={true}
         showFooter={true}
         scrollEnabled={true}
         searchParams={{is_company: 1}}
         iconSize={iconSizes.large}
         textSize={text.medium}
         type="company"
+        groupName={'companies'}
       />
     </BgContainer>
   );

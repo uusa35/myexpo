@@ -1,6 +1,7 @@
-import React, {useState, useContext, Fragment} from 'react';
+import React, {useState, useContext, Fragment, useMemo} from 'react';
 import {
   ImageBackground,
+  Picker,
   ScrollView,
   StyleSheet,
   Text,
@@ -17,7 +18,11 @@ import {
   formWidget,
 } from '../../../constants/sizes';
 import {icons} from '../../../constants/images';
-import {enableErrorMessage, showCountryModal} from '../../../redux/actions';
+import {
+  enableErrorMessage,
+  setArea,
+  showCountryModal,
+} from '../../../redux/actions';
 import {
   companyRegister,
   register,
@@ -26,7 +31,7 @@ import {
 import {GlobalValuesContext} from '../../../redux/GlobalValuesContext';
 import {ABATI, APP_CASE} from './../../../../app';
 import {useDispatch, useSelector} from 'react-redux';
-import {filter, first, map, remove} from 'lodash';
+import {filter, first, isEmpty, map, remove, isNull} from 'lodash';
 import ImageLoaderContainer from '../ImageLoaderContainer';
 import ImagePicker from 'react-native-image-crop-picker';
 import widgetStyles from '../widgetStyles';
@@ -40,10 +45,11 @@ import DesineratRegisterFormIsMaleComponenet from './DesineratRegisterFormIsMale
 import {convertNumberToEnglish} from '../../../helpers';
 import {WebView} from 'react-native-webview';
 import {DESIGNERAT} from '../../../../app.json';
+import {isIOS} from '../../../constants';
 
 const DesigneratRegisterFormWidget = ({showLabel = false}) => {
   const {colors, logo} = useContext(GlobalValuesContext);
-  const {country, playerId, role, roles, settings} = useSelector(
+  const {country, playerId, role, roles, settings, countries} = useSelector(
     state => state,
   );
   const dispatch = useDispatch();
@@ -60,6 +66,28 @@ const DesigneratRegisterFormWidget = ({showLabel = false}) => {
   const [images, setImages] = useState();
   const [isMale, setIsMale] = useState(false);
   const [checked, setChecked] = useState(role.isClient);
+  const [selectedCountry, setSelectedCountry] = useState(first(countries));
+  const [selectedGovernate, setSelectedGovernate] = useState(
+    first(countries).governates,
+  );
+  const [selectedArea, setSelectedArea] = useState(
+    first(first(first(countries).governates).areas),
+  );
+
+  useMemo(() => {
+    if (!validate.isEmpty(selectedCountry.governates)) {
+      setSelectedGovernate(first(selectedCountry.governates));
+    }
+  }, [selectedCountry]);
+
+  useMemo(() => {
+    if (
+      !validate.isEmpty(selectedGovernate.areas) &&
+      selectedGovernate.areas.length >= 1
+    ) {
+      setSelectedArea(first(selectedGovernate.areas));
+    }
+  }, [selectedGovernate]);
 
   const openLogoPicker = () => {
     return ImagePicker.openPicker({
@@ -134,6 +162,7 @@ const DesigneratRegisterFormWidget = ({showLabel = false}) => {
           password,
           mobile,
           country_id: country.id,
+          area_id: selectedArea.id,
           address,
           player_id: playerId,
           description,
@@ -156,6 +185,7 @@ const DesigneratRegisterFormWidget = ({showLabel = false}) => {
               password,
               mobile,
               country_id: country.id,
+              area_id: selectedArea.id,
               address,
               player_id: playerId,
               description,
@@ -184,6 +214,7 @@ const DesigneratRegisterFormWidget = ({showLabel = false}) => {
           password,
           mobile,
           country_id: country.id,
+          area_id: selectedArea.id,
           address,
           player_id: playerId,
           description,
@@ -374,6 +405,153 @@ const DesigneratRegisterFormWidget = ({showLabel = false}) => {
         isMale={isMale}
         setIsMale={setIsMale}
       />
+
+      <View
+        style={[
+          widgetStyles.inputContainerStyle,
+          {
+            minHeight: height / 2.3,
+            marginLeft: 10,
+            marginRight: 10,
+            marginTop: 10,
+          },
+        ]}>
+        {!isEmpty(countries) && (
+          <>
+            <View>
+              <Text
+                style={[
+                  styles.titleLabelStyle,
+                  {color: colors.main_theme_color, marginTop: 10},
+                ]}>
+                {I18n.t('choose_country')}
+              </Text>
+            </View>
+            <Picker
+              mode="dropdown"
+              itemStyle={[widgetStyles.headerThree, {backgroundColor: 'white'}]}
+              selectedValue={selectedCountry.id}
+              style={{
+                marginTop: 5,
+                marginBottom: 5,
+                minHeight: 80,
+                backgroundColor: 'white',
+                // marginLeft: 15,
+                // marginRight: 15,
+                borderWidth: 1,
+                borderColor: themeColors.desinerat.lightGray,
+              }}
+              onValueChange={itemValue =>
+                setSelectedCountry(
+                  first(filter(countries, c => c.id === itemValue)),
+                )
+              }>
+              {map(countries, (g, i) => (
+                <Picker.Item
+                  color={'black'}
+                  label={g.slug}
+                  value={g.id}
+                  key={i}
+                />
+              ))}
+            </Picker>
+          </>
+        )}
+        {!isEmpty(selectedCountry.governates) &&
+          selectedCountry.governates.length >= 1 && (
+            <>
+              <View>
+                <Text
+                  style={[
+                    styles.titleLabelStyle,
+                    {color: colors.main_theme_color, marginTop: 10},
+                  ]}>
+                  {I18n.t('choose_governate')}
+                </Text>
+              </View>
+              <Picker
+                mode="dropdown"
+                itemStyle={[
+                  widgetStyles.headerThree,
+                  {backgroundColor: 'white'},
+                ]}
+                selectedValue={selectedGovernate.id}
+                style={{
+                  marginTop: 5,
+                  marginBottom: 5,
+                  minHeight: 80,
+                  backgroundColor: 'white',
+                  // marginLeft: 15,
+                  // marginRight: 15,
+                  borderWidth: 1,
+                  borderColor: themeColors.desinerat.lightGray,
+                }}
+                onValueChange={itemValue =>
+                  setSelectedGovernate(
+                    first(
+                      filter(
+                        selectedCountry.governates,
+                        g => g.id === itemValue,
+                      ),
+                    ),
+                  )
+                }>
+                {map(selectedCountry.governates, (g, i) => (
+                  <Picker.Item
+                    color={'black'}
+                    label={g.slug}
+                    value={g.id}
+                    key={i}
+                  />
+                ))}
+              </Picker>
+            </>
+          )}
+        {!isEmpty(selectedArea) && selectedArea.id && (
+          <>
+            <View>
+              <Text
+                style={[
+                  styles.titleLabelStyle,
+                  {color: colors.main_theme_color},
+                ]}>
+                {I18n.t('choose_area')}
+              </Text>
+            </View>
+            <Picker
+              mode="dropdown"
+              itemStyle={[widgetStyles.headerThree, {backgroundColor: 'white'}]}
+              style={{
+                marginTop: 5,
+                marginBottom: 5,
+                minHeight: 80,
+                backgroundColor: 'white',
+                // marginLeft: 15,
+                // marginRight: 15,
+                borderWidth: 1,
+                borderColor: themeColors.desinerat.lightGray,
+              }}
+              selectedValue={selectedArea.id}
+              onValueChange={itemValue =>
+                setSelectedArea(
+                  first(
+                    filter(selectedGovernate.areas, g => g.id === itemValue),
+                  ),
+                )
+              }>
+              {map(selectedGovernate.areas, (g, i) => (
+                <Picker.Item
+                  color={'black'}
+                  label={g.slug}
+                  value={g.id}
+                  key={i}
+                />
+              ))}
+            </Picker>
+          </>
+        )}
+      </View>
+
       {/*{(role.isDesigner || role.isCompany) && (*/}
       {/*  <>*/}
       {/*    <Text*/}
@@ -453,78 +631,70 @@ const DesigneratRegisterFormWidget = ({showLabel = false}) => {
           ))}
         </ScrollView>
       )}
-      {!role.isClient && (
-        <View style={{backgroundColor: 'white', margin: 15, padding: 15}}>
-          {!validate.isEmpty(settings.policy) &&
-            settings.policy.length > 100 &&
-            DESIGNERAT && (
-              <WebView
-                showsVerticalScrollIndicator={false}
-                showsHorizontalScrollIndicator={false}
-                source={{html: settings.policy}}
-                style={{width: '100%', minHeight: height / 2.3, marginTop: 10}}
-              />
-            )}
-          <View
-            style={{
-              width: '100%',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}>
-            <CheckBox
-              containerStyle={{
-                backgroundColor: 'transparent',
-                alignItems: 'baseline',
-                justifyContent: 'flex-start',
-                borderWidth: 0,
-                paddingLeft: 0,
-                paddingRight: 0,
-                marginRight: 0,
-                marginLeft: 0,
-              }}
-              title={I18n.t('agree_on_polices')}
-              iconType="material"
-              checkedIcon="check-box"
-              uncheckedIcon="check-box-outline-blank"
-              checked={checked}
-              checkedColor={colors.btn_bg_theme_color}
-              uncheckedColor={colors.btn_bg_theme_color}
-              style={{color: colors.btn_bg_theme_color}}
-              onPress={() => setChecked(!checked)}
-              textStyle={{
-                fontFamily: text.font,
-                paddingTop: 5,
-                fontSize: text.small,
-              }}
-            />
-            <Icon
-              name="book"
-              type="octicon"
-              size={iconSizes.smaller}
-              hitSlop={{
-                top: iconSizes.smaller,
-                bottom: iconSizes.smaller,
-                left: iconSizes.smaller,
-                right: iconSizes.smaller,
-              }}
-              onPress={() => navigation.navigate('Policy')}
-            />
-          </View>
+
+      <View style={{backgroundColor: 'white', margin: 15, padding: 15}}>
+        <View
+          style={{
+            width: '100%',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}>
+          <CheckBox
+            containerStyle={{
+              backgroundColor: 'transparent',
+              alignItems: 'baseline',
+              justifyContent: 'flex-start',
+              borderWidth: 0,
+              paddingLeft: 0,
+              paddingRight: 0,
+              marginRight: 0,
+              marginLeft: 0,
+            }}
+            title={I18n.t('agree_on_polices')}
+            iconType="material"
+            checkedIcon="check-box"
+            uncheckedIcon="check-box-outline-blank"
+            checked={checked}
+            checkedColor={colors.btn_bg_theme_color}
+            uncheckedColor={colors.btn_bg_theme_color}
+            style={{color: colors.btn_bg_theme_color}}
+            onPress={() => setChecked(!checked)}
+            textStyle={{
+              fontFamily: text.font,
+              paddingTop: 5,
+              fontSize: text.small,
+            }}
+          />
+          <Icon
+            name="book"
+            type="octicon"
+            size={iconSizes.smaller}
+            hitSlop={{
+              top: iconSizes.smaller,
+              bottom: iconSizes.smaller,
+              left: iconSizes.smaller,
+              right: iconSizes.smaller,
+            }}
+            onPress={() => navigation.navigate('Policy')}
+          />
         </View>
-      )}
-      <DesigneratBtn
-        disabled={!checked}
-        handleClick={() => handleRegister()}
-        marginTop={20}
-        title={I18n.t('register')}
-      />
-      <DesigneratBtn
-        handleClick={() => navigation.navigate('Login')}
-        marginTop={20}
-        bg={false}
-        title={I18n.t('u_have_account_already_log_in_now')}
-      />
+      </View>
+
+      <View style={{flex: 1}}>
+        <DesigneratBtn
+          disabled={!checked}
+          handleClick={() => handleRegister()}
+          marginTop={20}
+          title={I18n.t('register')}
+        />
+        <DesigneratBtn
+          handleClick={() => navigation.navigate('Login')}
+          marginTop={20}
+          bg={false}
+          title={I18n.t('u_have_account_already_log_in_now')}
+        />
+      </View>
     </KeyBoardContainer>
   );
 };

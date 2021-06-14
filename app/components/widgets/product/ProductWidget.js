@@ -38,9 +38,8 @@ const ProductWidget = ({
   width = '48%',
   showSku = true,
 }) => {
-  const {currency_symbol, exchange_rate, colors} = useContext(
-    GlobalValuesContext,
-  );
+  const {currency_symbol, exchange_rate, colors} =
+    useContext(GlobalValuesContext);
   const {token, guest} = useSelector(state => state);
   const dispatch = useDispatch();
 
@@ -51,7 +50,7 @@ const ProductWidget = ({
         widgetStyles.productServiceWidget,
         {
           width: width,
-          height: 280,
+          height: 300,
           borderRadius: 5,
           borderBottomLeftRadius: 10,
           borderBottomRightRadius: 10,
@@ -65,7 +64,7 @@ const ProductWidget = ({
             borderTopRightRadius: 5,
             borderTopLeftRadius: 5,
             width: '100%',
-            height: '80%',
+            height: '75%',
           }}
           resizeMode="cover"
         />
@@ -92,11 +91,12 @@ const ProductWidget = ({
           style={{
             width: '100%',
             height: '10%',
-            // paddingTop: 5,
             alignItems: 'flex-start',
             justifyContent: 'space-between',
             flex: 1,
             flexDirection: 'column',
+            paddingTop: 3,
+            paddingBottom: 3,
           }}>
           <View
             style={{

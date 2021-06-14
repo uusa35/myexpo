@@ -13,10 +13,14 @@ const persistConfig = {
   blacklist: [
     'message',
     'cart',
+    'branch',
+    'branches',
+    'pickup',
     'coupon',
     'player_id',
     'shipment_fees',
     'countryModal',
+    'currencyModal',
     'loginModal',
     'isLoadingProfile',
     'isLoadingContent',
@@ -40,9 +44,6 @@ const persistConfig = {
 let Store;
 let PersistStore;
 if (__DEV__) {
-  // create our new saga monitor
-  // and in your call to createSagaMiddlware, pass it along inside
-  // the 1st parameter's object.
   const persistedReducer = persistReducer(persistConfig, reducers);
   const sagaMiddleware = createSagaMiddleware();
   const appLogger = createLogger({
@@ -51,8 +52,8 @@ if (__DEV__) {
   });
   const composeEnhancers = composeWithDevTools({realtime: true, port: 8081});
   const createDebugger = require('redux-flipper').default;
-  const createFlipperMiddleware = require('rn-redux-middleware-flipper')
-    .default;
+  const createFlipperMiddleware =
+    require('rn-redux-middleware-flipper').default;
   Store = createStore(
     persistedReducer,
     composeEnhancers(

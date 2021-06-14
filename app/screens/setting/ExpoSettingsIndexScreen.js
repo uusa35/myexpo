@@ -22,7 +22,12 @@ import {Button, Icon, Badge} from 'react-native-elements';
 import I18n from './../../I18n';
 import {changeLang, refetchHomeElements} from '../../redux/actions';
 import {APP_CASE, DESIGNERAT} from './../../../app';
-import {reAuthenticate, setRole, submitAuth} from '../../redux/actions/user';
+import {
+  logout,
+  reAuthenticate,
+  setRole,
+  submitAuth,
+} from '../../redux/actions/user';
 import BgContainer from '../../components/containers/BgContainer';
 import CopyRightInfo from '../../components/widgets/setting/CopyRightInfo';
 import {isEmpty, first, filter} from 'lodash';
@@ -88,59 +93,69 @@ const DesigneratSettingsIndexScreen = ({navigation}) => {
             onRefresh={() => handleRefresh()}
           />
         }>
-        <ImageBackground
-          source={{uri: auth.thumb}}
-          resizeMode="cover"
+        <Pressable
           style={{
-            paddingTop: 20,
             paddingBottom: 20,
             width: '100%',
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: adjustColor(colors.btn_bg_theme_color, 50),
           }}
           onPress={() =>
-            guest ? handleRegisterClick() : navigation.navigate('UserEdit')
+            guest && auth.active
+              ? handleRegisterClick()
+              : navigation.navigate('UserEdit')
           }>
-          <FastImage
-            source={{uri: auth.thumb ? auth.thumb : settings.logo}}
+          <ImageBackground
+            source={{uri: auth.thumb}}
             resizeMode="cover"
-            style={{width: 90, height: 90, borderRadius: 10}}
-          />
-          <View
             style={{
-              paddingTop: 10,
-              flexDirection: 'row',
+              paddingTop: 20,
+              paddingBottom: 20,
+              width: '100%',
               justifyContent: 'center',
-              alignItems: 'baseline',
+              alignItems: 'center',
+              backgroundColor: adjustColor(colors.btn_bg_theme_color, 50),
             }}>
+            <FastImage
+              source={{uri: auth.thumb ? auth.thumb : settings.logo}}
+              resizeMode="cover"
+              style={{width: 90, height: 90, borderRadius: 10}}
+            />
+            <View
+              style={{
+                paddingTop: 10,
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'baseline',
+              }}>
+              {!guest && (
+                <>
+                  <Text
+                    style={[
+                      widgetStyles.headerThree,
+                      {color: colors.btn_text_theme_color},
+                    ]}>{`${!guest ? auth.name : ''}`}</Text>
+                  <Icon
+                    color={colors.icon_theme_color}
+                    name="edit"
+                    type="font-awesome"
+                    size={iconSizes.smallest}
+                    style={{paddingLeft: 10}}
+                  />
+                </>
+              )}
+            </View>
             {!guest && (
-              <>
+              <View style={{marginTop: 15}}>
                 <Text
                   style={[
                     widgetStyles.headerThree,
                     {color: colors.btn_text_theme_color},
-                  ]}>{`${!guest ? auth.name : ''}`}</Text>
-                <Icon
-                  color={colors.icon_theme_color}
-                  name="edit"
-                  type="font-awesome"
-                  size={iconSizes.smallest}
-                  style={{paddingLeft: 10}}
-                />
-              </>
+                  ]}>{`${auth.role.slug}`}</Text>
+              </View>
             )}
-          </View>
-          {!guest && (
-            <View style={{marginTop: 15}}>
-              <Text
-                style={[
-                  widgetStyles.headerThree,
-                  {color: colors.btn_text_theme_color},
-                ]}>{`${auth.role.slug}`}</Text>
-            </View>
-          )}
-        </ImageBackground>
+          </ImageBackground>
+        </Pressable>
         <View
           animation="bounceIn"
           easing="ease-out"
@@ -151,11 +166,39 @@ const DesigneratSettingsIndexScreen = ({navigation}) => {
             alignItems: 'center',
             flex: 1,
             padding: 15,
-            marginTop: '5%',
+            marginTop: '2%',
             width: '100%',
           }}>
-          {!guest && (
+          {!guest && auth.active && (
             <>
+              <Pressable
+                style={[
+                  {
+                    width: '100%',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    height: 60,
+                    borderBottomWidth: 0.5,
+                    borderColor: colors.icon_theme_color,
+                    alignSelf: 'center',
+                    justifyContent: 'center',
+                  },
+                ]}
+                onPress={() => dispatch(logout())}>
+                <Icon
+                  color={colors.menu_theme_color}
+                  name="logout"
+                  type="antdesign"
+                  size={iconSizes.smaller}
+                />
+                <Text
+                  style={[
+                    widgetStyles.headerTow,
+                    {paddingLeft: 30, paddingRight: 30},
+                  ]}>
+                  {I18n.t('logout')}
+                </Text>
+              </Pressable>
               {auth.role && !auth.role.isClient && auth.access_dashboard && (
                 <>
                   <Pressable
@@ -358,7 +401,6 @@ const DesigneratSettingsIndexScreen = ({navigation}) => {
               {I18n.t('aboutus')}
             </Text>
           </Pressable>
-
           <Pressable
             style={{
               width: '100%',
@@ -493,6 +535,27 @@ const DesigneratSettingsIndexScreen = ({navigation}) => {
               alignItems: 'center',
               height: 60,
             }}
+            onPress={() => navigation.navigate('Faq')}>
+            <FastImage
+              source={{uri: settings.logo}}
+              resizeMode="cover"
+              style={{width: 25, height: 25}}
+            />
+            <Text
+              style={[
+                widgetStyles.headerTow,
+                {paddingLeft: 30, paddingRight: 30},
+              ]}>
+              {I18n.t('faqs')}
+            </Text>
+          </Pressable>
+          <Pressable
+            style={{
+              width: '100%',
+              flexDirection: 'row',
+              alignItems: 'center',
+              height: 60,
+            }}
             onPress={() => dispatch(changeLang(lang === 'ar' ? 'en' : 'ar'))}>
             <Icon
               hitSlop={{top: 15, bottom: 15, left: 15, right: 15}}
@@ -501,7 +564,6 @@ const DesigneratSettingsIndexScreen = ({navigation}) => {
               type="fontawesome"
               color={colors.menu_theme_color}
             />
-            <FastImage source={{}} />
             <Text
               style={[
                 widgetStyles.headerTow,

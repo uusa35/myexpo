@@ -77,14 +77,18 @@ const AbatiHomeScreen = () => {
           <DesignersHorizontalWidget
             elements={homeDesigners}
             showName={true}
+            rounded={true}
+            showAll={true}
             name={I18n.t('designers')}
             title={I18n.t('designers')}
+            type={'designer'}
             searchParams={{is_designer: 1, country_id: country.id}}
           />
         )}
         {homeCategories && (
           <ProductCategoryHorizontalRoundedWidget
             elements={homeCategories}
+            showAll={true}
             showName={true}
             title={I18n.t('categories')}
             type="products"
@@ -94,7 +98,10 @@ const AbatiHomeScreen = () => {
           <CelebrityHorizontalWidget
             elements={homeCelebrities}
             showName={true}
+            rounded={true}
+            showAll={true}
             name="celebrities"
+            type={'celebrity'}
             title={I18n.t('celebrities')}
             searchParams={{
               is_celebrity: 1,

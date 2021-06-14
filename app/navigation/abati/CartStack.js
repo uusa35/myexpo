@@ -21,6 +21,7 @@ import CartIndexScreen from '../../screens/cart/CartIndexScreen';
 import CartConfirmationScreen from '../../screens/cart/CartConfirmationScreen';
 import {GlobalValuesContext} from '../../redux/GlobalValuesContext';
 import {HeaderBack} from '../../components/HeaderBack';
+import DesigneratCartIndexFormScreen from '../../screens/cart/DesigneratCartIndexFormScreen';
 
 const Stack = createStackNavigator();
 const CartStack = () => {

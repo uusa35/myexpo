@@ -17,64 +17,46 @@ import ServiceHorizontalWidget from '../../components/widgets/service/ServiceHor
 import HeaderImageScrollView from 'react-native-image-header-scroll-view';
 import VideosVerticalWidget from '../../components/widgets/video/VideosVerticalWidget';
 import BgContainer from '../../components/containers/BgContainer';
+import {useNavigation} from '@react-navigation/native';
+import KeyBoardContainer from '../../components/containers/KeyBoardContainer';
+import {getProduct} from '../../redux/actions/product';
+import {isIOS} from '../../constants';
 
-const ServiceShowScreen = ({navigation}) => {
+const ServiceShowScreen = () => {
   const {service, services, settings, token} = useSelector(state => state);
   const {phone, mobile} = settings;
   const dispatch = useDispatch();
   const [refresh, setRefresh] = useState(false);
-  const [scrollVal, setScrollVal] = useState(0);
-  const [btnVisible, setBtnVisible] = useState(false);
-  const [headerBg, setHeaderBg] = useState(true);
-  const [headerBgColor, setHeaderBgColor] = useState('transparent');
+  const navigation = useNavigation();
 
-  useEffect(() => {
-    headerBg || headerBgColor
-      ? navigation.setParams({headerBg, headerBgColor})
-      : null;
-  }, [headerBg]);
+  const handleRefresh = () => {
+    setRefresh(false);
+    dispatch(
+      getService({
+        id: service.id,
+        api_token: token ? token : null,
+        redirect: false,
+      }),
+    );
+  };
 
   return (
-    <BgContainer showImage={false}>
-      <HeaderImageScrollView
-        vertical={false}
-        automaticallyAdjustContentInsets={false}
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        maxHeight={height / 1.5}
-        minHeight={90}
-        style={{width}}
-        scrollViewBackgroundColor="white"
-        overlayColor="white"
-        renderForeground={() => (
-          <ImagesWidget
-            elements={service.images
-              .concat({id: service.id, large: service.large})
-              .reverse()}
-            width={width}
-            height={height / 1.5}
-            name={service.name}
-            exclusive={service.exclusive}
-            isOnSale={service.isOnSale}
-            isReallyHot={service.isReallyHot}
-          />
-        )}
-        refreshControl={
-          <RefreshControl
-            refreshing={refresh}
-            onRefresh={() => {
-              setRefresh(false);
-              dispatch(
-                getService({
-                  id: service.id,
-                  api_token: token ? token : null,
-                  redirect: false,
-                }),
-              );
-            }}
-          />
-        }
-        contentInset={{bottom: 50}}>
+    <BgContainer showImage={false} white={true}>
+      <KeyBoardContainer
+        behavior="position"
+        handleRefresh={() => handleRefresh()}
+        showRefresh={true}>
+        <ImagesWidget
+          elements={service.images
+            .concat({id: service.id, large: service.large})
+            .reverse()}
+          width={width}
+          height={height / 1.5}
+          name={service.name}
+          exclusive={service.exclusive}
+          isOnSale={service.isOnSale}
+          isReallyHot={service.isReallyHot}
+        />
         <View style={{alignSelf: 'center', width: '95%'}}>
           <ServiceInfoWidget element={service} />
           <View
@@ -169,10 +151,12 @@ const ServiceShowScreen = ({navigation}) => {
             )}
           </View>
         </View>
-        {validate.isObject(service.videoGroup) &&
-          !validate.isEmpty(service.videoGroup) && (
-            <VideosVerticalWidget videos={service.videoGroup} />
-          )}
+        <View style={{paddingBottom: !isIOS ? '8%' : 0}}>
+          {validate.isObject(service.videoGroup) &&
+            !validate.isEmpty(service.videoGroup) && (
+              <VideosVerticalWidget videos={service.videoGroup} />
+            )}
+        </View>
         {/*{validate.isArray(services) && !validate.isEmpty(services) &&*/}
         {/*  <ServiceHorizontalWidget*/}
         {/*    showName={true}*/}
@@ -180,8 +164,8 @@ const ServiceShowScreen = ({navigation}) => {
         {/*    elements={services}*/}
         {/*  />*/}
         {/*}*/}
-      </HeaderImageScrollView>
-      <ActionBtnWidget />
+      </KeyBoardContainer>
+      {/*<ActionBtnWidget />*/}
     </BgContainer>
   );
 };

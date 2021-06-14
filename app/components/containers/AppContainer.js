@@ -20,6 +20,7 @@ import {isIOS} from './../../constants';
 import LoadingView from '../Loading/LoadingView';
 import SplashScreen from 'react-native-splash-screen';
 import LoadingOfflineView from '../Loading/LoadingOfflineView';
+import CurrenciesList from '../Lists/CurrenciesList';
 
 const AppContainer = ({children}) => {
   const {
@@ -135,6 +136,7 @@ const AppContainer = ({children}) => {
               {country && (
                 <CountriesList country={country} countries={countries} />
               )}
+              {currency && <CurrenciesList />}
               {validate.isBoolean(areaModal) && !validate.isEmpty(areas) && (
                 <AreasList area={area} areas={areas} areaModal={areaModal} />
               )}

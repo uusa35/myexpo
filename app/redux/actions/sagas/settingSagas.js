@@ -11,6 +11,7 @@ import analytics from '@react-native-firebase/analytics';
 import moment from 'moment';
 import {buildVersion} from './../../../../app';
 import {TOGGLE_IS_CONNECTED, SET_PRODUCT_COLORS, SET_SIZES} from '../types';
+import {DeviceInfo} from 'react-native';
 
 export function* enableLoading() {
   yield put({type: actions.TOGGLE_LOADING, payload: true});
@@ -115,30 +116,6 @@ export function* enableWarningMessage(
       color: 'orange',
     },
   });
-}
-
-export function* setVersion() {
-  try {
-    const {version} = yield select();
-    if (__DEV__) {
-      // console.log('version', version);
-      // console.log('Will Load AlL ::', version !== buildVersion);
-    }
-    yield put({
-      type: actions.SET_VERSION,
-      payload: buildVersion,
-    });
-    if (validate.isEmpty(version) || version !== buildVersion) {
-      if (__DEV__) {
-        // console.log('form inside if buildVersion', buildVersion);
-      }
-      yield call(startResetStoreScenario);
-    }
-  } catch (e) {
-    // if (__DEV__) {
-    //   console.log('ee', e);
-    // }
-  }
 }
 
 export function* enableResetApp() {

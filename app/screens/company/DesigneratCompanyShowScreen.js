@@ -106,19 +106,28 @@ const DesigneratCompanyShowScreen = ({route}) => {
             onRefresh={() => handleRefresh()}
           />
         }>
-        {company.banner && !validate.isEmpty(company.banner) ? (
-          <ImageLoaderContainer
-            img={company.banner}
-            style={{width: '100%', height: 200}}
-            resizeMode={'cover'}
-          />
-        ) : null}
+        {!validate.isEmpty(company.slides) ? (
+          <View style={{width: width}}>
+            <MainSliderWidget elements={company.slides} />
+          </View>
+        ) : (
+          <>
+            {company.banner && !validate.isEmpty(company.banner) ? (
+              <ImageLoaderContainer
+                img={company.banner}
+                style={{width: '100%', height: 200}}
+                resizeMode={'cover'}
+              />
+            ) : (
+              <ImageLoaderContainer
+                img={logo}
+                style={{width: '100%', height: 200}}
+                resizeMode={'cover'}
+              />
+            )}
+          </>
+        )}
         <View style={[styles.wrapper, {marginTop: '5%'}]}>
-          {!validate.isEmpty(company.slides) && (
-            <View style={{paddingTop: 10, paddingBottom: 10, width: width}}>
-              <MainSliderWidget elements={company.slides} />
-            </View>
-          )}
           <View
             style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
             <ImageLoaderContainer img={company.thumb} style={styles.image} />

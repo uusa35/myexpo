@@ -15,8 +15,9 @@ const ExpoMainSliderWidget = ({elements}) => {
       {!isEmpty(elements) && (
         <View
           style={{
-            height: !validate.isEmpty(elements) ? 200 : 0,
-            margin: 10,
+            height: !validate.isEmpty(elements) ? 180 : 0,
+            marginRight: 10,
+            marginLeft: 10,
             flex: 1,
             backgroundColor: 'transparent',
           }}>

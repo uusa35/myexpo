@@ -54,8 +54,15 @@ import CalendarIndexScreen from '../../screens/calender/CalendarIndexScreen';
 import DesignerShowScreen from '../../screens/designer/expo/DesignerShowScreen';
 import PanoramaShowScreen from '../../screens/PanoramaShowScreen';
 import IstoresSearchTab from './IstoresSearchTab';
+import CartGuestScreen from '../../screens/cart/CartGuestScreen';
+import FaqIndexCollapseScreen from '../../screens/faq/FaqIndexCollapseScreen';
+import IhouseCompanyShowScreen from '../../screens/company/IhouseCompanyShowScreen';
+import PdfViewScreen from '../../screens/PdfViewScreen';
+import IhousesHomeScreen from '../../screens/home/IhousesHomeScreen';
+import CategoryIndexScreen from '../../screens/category/CategoryIndexScreen';
 
 const Stack = createStackNavigator();
+
 const IstoresHomeStack = () => {
   const {colors} = useContext(GlobalValuesContext);
   return (
@@ -88,13 +95,7 @@ const IstoresHomeStack = () => {
       <Stack.Screen
         options={({navigation}) => ({
           headerLeft: () => (
-            <Icon
-              name="menu"
-              type="material"
-              size={iconSizes.small}
-              color={colors.footer_theme_color}
-              onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
-            />
+            <HeaderLeft showCurrency={true} showSideMenu={true} />
           ),
           headerTitle: () => <HeaderMiddle showLogo={true} />,
           headerRight: () => (
@@ -112,7 +113,7 @@ const IstoresHomeStack = () => {
       <Stack.Screen
         name={'SearchTab'}
         options={{
-          headerTitle: () => <HeaderMiddle title={I18n.t('expo')} />,
+          headerTitle: () => <HeaderMiddle title={I18n.t('istores.istores')} />,
         }}
         component={IstoresSearchTab}
       />
@@ -156,9 +157,17 @@ const IstoresHomeStack = () => {
       <Stack.Screen
         name={'CompanyIndex'}
         options={{
-          headerTitle: () => <HeaderMiddle title={I18n.t('elites')} />,
+          headerTitle: () => <HeaderMiddle title={I18n.t('companies')} />,
         }}
         component={CompanyIndexScreen}
+      />
+      <Stack.Screen
+        name={'Ihouse'}
+        options={{
+          headerRight: () => <HeaderRight />,
+          headerTitle: () => <HeaderMiddle title={I18n.t('ihouses.ihouses')} />,
+        }}
+        component={IhousesHomeScreen}
       />
       <Stack.Screen
         name={'CompanyShow'}
@@ -280,8 +289,24 @@ const IstoresHomeStack = () => {
       />
 
       <Stack.Screen
+        name="CartGuest"
+        component={CartGuestScreen}
+        options={{
+          headerTitle: () => (
+            <HeaderMiddle title={I18n.t('continue_as_guest')} />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="CategoryIndex"
+        component={CategoryIndexScreen}
+        options={{
+          headerTitle: () => <HeaderMiddle title={I18n.t('categories')} />,
+        }}
+      />
+      <Stack.Screen
         name="CartIndex"
-        component={CartIndexScreen}
+        component={DesigneratCartIndexScreen}
         options={{
           headerTitle: () => <HeaderMiddle title={I18n.t('cart')} />,
         }}
@@ -376,6 +401,15 @@ const IstoresHomeStack = () => {
         }}
       />
       <Stack.Screen
+        name={'Faq'}
+        component={FaqIndexCollapseScreen}
+        options={{
+          headerRight: () => <HeaderRight />,
+          headerTitle: () => <HeaderMiddle title={I18n.t('faqs')} />,
+          headerBackTitle: () => null,
+        }}
+      />
+      <Stack.Screen
         name={'StatisticIndex'}
         options={{
           headerTitle: () => <HeaderMiddle title={I18n.t('statistics')} />,
@@ -389,6 +423,13 @@ const IstoresHomeStack = () => {
           headerRight: () => <HeaderRight display={false} showCountry={true} />,
         }}
         component={CalendarIndexScreen}
+      />
+      <Stack.Screen
+        name={'PdfView'}
+        options={{
+          headerTitle: () => <HeaderMiddle />,
+        }}
+        component={PdfViewScreen}
       />
       <Stack.Screen
         name={'PanoramaShow'}

@@ -33,6 +33,9 @@ const ExpoHomeScreen = () => {
     mainBg,
     country,
     settings,
+    latestProducts,
+    hotDealsProducts,
+    onSaleProducts,
   } = useSelector(state => state);
   const dispatch = useDispatch();
 
@@ -106,8 +109,37 @@ const ExpoHomeScreen = () => {
           <ProductHorizontalWidget
             elements={homeProducts}
             showName={true}
-            title={I18n.t('on_sale_products')}
+            title={I18n.t('chosen_products')}
+            searchParams={{on_home: 1, country_id: country.id}}
+          />
+        )}
+        {latestProducts && (
+          <ProductHorizontalWidget
+            elements={latestProducts}
+            showName={true}
+            title={I18n.t('recent_products')}
+            searchParams={{on_home: 1, country_id: country.id, latest: 1}}
+          />
+        )}
+        {onSaleProducts && (
+          <ProductHorizontalWidget
+            elements={onSaleProducts}
+            showName={true}
+            title={I18n.t('on_sale')}
             searchParams={{on_home: 1, country_id: country.id, on_sale: 1}}
+          />
+        )}
+        {hotDealsProducts && (
+          <ProductHorizontalWidget
+            elements={hotDealsProducts}
+            showName={true}
+            title={I18n.t('hot_deals_products')}
+            searchParams={{
+              on_home: 1,
+              country_id: country.id,
+              on_sale: 1,
+              hot_deal: 1,
+            }}
           />
         )}
         <ExpoHomeScreenBtns />

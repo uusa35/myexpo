@@ -5,6 +5,7 @@ import DesigneratMainDrawer from './navigation/designerat/DesigneratMainDrawer';
 import MyExpoMainDrawer from './navigation/myexpo/MyExpoMainDrawer';
 import AbatiMainDrawer from './navigation/abati/AbatiMainDrawer';
 import IstoresMainDrawer from './navigation/istores/IstoresMainDrawer';
+import IhousesMainDrawer from './navigation/ihouse/IhousesMainDrawer';
 import {Provider} from 'react-redux';
 import {Store, PersistStore} from './redux/store';
 import {PersistGate} from 'redux-persist/integration/react';
@@ -43,6 +44,15 @@ const IstoresSwitchNavigator = createSwitchNavigator(
   },
 );
 
+const IhousesSwitchNavigator = createSwitchNavigator(
+  {
+    IhousesMainDrawer,
+  },
+  {
+    initialRouteName: 'MainDrawer',
+  },
+);
+
 const AbatiSwitchNavigator = createSwitchNavigator(
   {
     AbatiMainDrawer,
@@ -63,6 +73,8 @@ export default function App() {
         return <AbatiSwitchNavigator />;
       case 'ISTORES':
         return <IstoresSwitchNavigator />;
+      case 'IHOUSES':
+        return <IhousesSwitchNavigator />;
       default:
         return <DesigneratSwitchNavigator />;
     }

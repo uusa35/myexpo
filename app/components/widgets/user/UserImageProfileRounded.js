@@ -104,32 +104,36 @@ const UserImageProfileRounded = ({
               flexWrap: 'wrap',
               width: '100%',
             }}>
-            <TouchableOpacity>
+            {showComments && (
+              <TouchableOpacity>
+                <Icon
+                  onPress={() => dispatch(showCommentModal())}
+                  name="comment"
+                  type="material"
+                  raised
+                  reverse
+                  size={iconSizes.smallest}
+                  color={colors.icon_theme_bg}
+                  hitSlop={{top: 25, bottom: 25, left: 25, right: 25}}
+                />
+                <Badge
+                  status="warning"
+                  value={commentsCount}
+                  containerStyle={{position: 'absolute', top: 1, right: 1}}
+                />
+              </TouchableOpacity>
+            )}
+            {showFans && (
               <Icon
-                onPress={() => dispatch(showCommentModal())}
-                name="comment"
-                type="material"
+                name={!fanMe ? 'thumbsup' : 'thumb-up'}
+                type={!fanMe ? 'octicon' : 'material'}
+                onPress={() => handleFan(!fanMe)}
                 raised
                 reverse
                 size={iconSizes.smallest}
                 color={colors.icon_theme_bg}
-                hitSlop={{top: 25, bottom: 25, left: 25, right: 25}}
               />
-              <Badge
-                status="warning"
-                value={commentsCount}
-                containerStyle={{position: 'absolute', top: 1, right: 1}}
-              />
-            </TouchableOpacity>
-            <Icon
-              name={!fanMe ? 'thumbsup' : 'thumb-up'}
-              type={!fanMe ? 'octicon' : 'material'}
-              onPress={() => handleFan(!fanMe)}
-              raised
-              reverse
-              size={iconSizes.smallest}
-              color={colors.icon_theme_bg}
-            />
+            )}
             {latitude && longitude ? (
               <Icon
                 onPress={() =>

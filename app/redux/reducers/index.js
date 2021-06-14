@@ -27,10 +27,14 @@ import companies from './companies';
 import homeCompanies from './homeCompanies';
 import company from './company';
 import countries from './countries';
+import currencies from './currencies';
 import country from './country';
 import shipmentCountry from './shipmentCountry';
+import currencyModal from './currencyModal';
 import area from './area';
 import areas from './areas';
+import governate from './governate';
+import governates from './governates';
 import color from './color';
 import productColors from './productColors';
 import size from './size';
@@ -97,6 +101,10 @@ import roles from './roles';
 import role from './role';
 import resetApp from './resetApp';
 import elementType from './elementType';
+import pickup from './pickup';
+import branch from './branch';
+import branches from './branches';
+import faqs from './faqs';
 
 let reducers = combineReducers({
   isLoading,
@@ -152,6 +160,8 @@ let reducers = combineReducers({
   currency,
   area,
   areas,
+  governate,
+  governates,
   color,
   productColors,
   size,
@@ -197,6 +207,12 @@ let reducers = combineReducers({
   resetApp,
   searchModal,
   elementType,
+  pickup,
+  branch,
+  branches,
+  faqs,
+  currencies,
+  currencyModal,
 });
 
 export default reducers;

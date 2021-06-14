@@ -2,12 +2,16 @@
  * Created by usamaahmed on 9/28/17.
  */
 import React, {useContext} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, Pressable, View} from 'react-native';
 import {Icon, Badge} from 'react-native-elements';
 import {GlobalValuesContext} from '../redux/GlobalValuesContext';
 import widgetStyles from './widgets/widgetStyles';
 import {iconSizes} from '../constants/sizes';
 import {
+  hideCountryModal,
+  hideCurrencyModal,
+  showCountryModal,
+  showCurrencyModal,
   showProductFilter,
   toggleCompanySearchTextInputModal,
 } from '../redux/actions';
@@ -16,8 +20,12 @@ import {EXPO} from '../../app';
 import {useNavigation} from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
 import {icons} from '../constants/images';
+import ImageLoaderContainer from './widgets/ImageLoaderContainer';
+import {isIOS} from '../constants';
 
 export const HeaderLeft = ({
+  showCountry = false,
+  showCurrency = false,
   showCart = false,
   showSideMenu = true,
   showAccount = false,
@@ -26,8 +34,26 @@ export const HeaderLeft = ({
 }) => {
   const navigation = useNavigation();
   const {cartLength, colors} = useContext(GlobalValuesContext);
-  const {companySearchTextInputModal} = useSelector(state => state);
+  const {companySearchTextInputModal, countryModal, currencyModal, country} =
+    useSelector(state => state);
   const dispatch = useDispatch();
+
+  const handleCountryModal = () => {
+    if (!countryModal) {
+      dispatch(showCountryModal());
+    } else {
+      dispatch(hideCountryModal());
+    }
+  };
+
+  const handleCurrencyModal = () => {
+    if (!currencyModal) {
+      dispatch(showCurrencyModal());
+    } else {
+      dispatch(hideCurrencyModal());
+    }
+  };
+
   return (
     <View style={widgetStyles.safeContainer}>
       {showSideMenu && (
@@ -40,6 +66,42 @@ export const HeaderLeft = ({
           hitSlop={{top: 15, bottom: 15, left: 15, right: 15}}
           color={colors.footer_theme_color}
         />
+      )}
+      {showCountry && (
+        <Pressable
+          disabled={countryModal}
+          onPress={() => handleCountryModal()}
+          hitSlop={{top: 15, bottom: 15, left: 15, right: 15}}>
+          <ImageLoaderContainer
+            img={country.thumb}
+            style={{
+              width: 25,
+              height: 25,
+              borderRadius: 25 / 2,
+              borderWidth: 0.4,
+              borderColor: '#cdcdcd',
+            }}
+            resizeMode={isIOS ? 'stretch' : 'cover'}
+          />
+        </Pressable>
+      )}
+      {showCurrency && (
+        <Pressable
+          disabled={currencyModal}
+          onPress={() => handleCurrencyModal()}
+          hitSlop={{top: 15, bottom: 15, left: 15, right: 15}}>
+          <ImageLoaderContainer
+            img={country.thumb}
+            style={{
+              width: 25,
+              height: 25,
+              borderRadius: 25 / 2,
+              borderWidth: 0.4,
+              borderColor: '#cdcdcd',
+            }}
+            resizeMode={isIOS ? 'stretch' : 'cover'}
+          />
+        </Pressable>
       )}
       {showCompanySearchTextInputModal && (
         <Icon
@@ -70,7 +132,7 @@ export const HeaderLeft = ({
       {showCart ? (
         <View>
           <Icon
-            onPress={() => navigation.navigate('CartTab')}
+            onPress={() => navigation.navigate('CartIndex')}
             name="shoppingcart"
             type="antdesign"
             size={iconSizes.small}

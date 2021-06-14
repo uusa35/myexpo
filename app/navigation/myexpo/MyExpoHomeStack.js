@@ -54,8 +54,12 @@ import CalendarIndexScreen from '../../screens/calender/CalendarIndexScreen';
 import DesignerShowScreen from '../../screens/designer/expo/DesignerShowScreen';
 import PanoramaShowScreen from '../../screens/PanoramaShowScreen';
 import MyExpoSearchTab from './MyExpoSearchTab';
+import CartGuestScreen from '../../screens/cart/CartGuestScreen';
+import FaqIndexCollapseScreen from '../../screens/faq/FaqIndexCollapseScreen';
+import ServiceShowScreen from '../../screens/service/ServiceShowScreen';
 
 const Stack = createStackNavigator();
+
 const MyExpoHomeStack = () => {
   const {colors} = useContext(GlobalValuesContext);
   return (
@@ -88,12 +92,11 @@ const MyExpoHomeStack = () => {
       <Stack.Screen
         options={({navigation}) => ({
           headerLeft: () => (
-            <Icon
-              name="menu"
-              type="material"
-              size={iconSizes.small}
-              color={colors.footer_theme_color}
-              onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
+            <HeaderLeft
+              showProductFavorite={false}
+              showSideMenu={true}
+              showCurrency={true}
+              showProductsSearch={false}
             />
           ),
           headerTitle: () => <HeaderMiddle showLogo={true} />,
@@ -108,6 +111,16 @@ const MyExpoHomeStack = () => {
         })}
         name={'MainTab'}
         component={MyExpoMainTab}
+      />
+      <Stack.Screen
+        name={'ServiceShow'}
+        options={{
+          headerTitle: () => <HeaderMiddle />,
+          headerRight: () => (
+            <HeaderRight showCart={true} displayShare={true} />
+          ),
+        }}
+        component={ServiceShowScreen}
       />
       <Stack.Screen
         name={'SearchTab'}
@@ -278,10 +291,18 @@ const MyExpoHomeStack = () => {
         }}
         component={ContactusScreen}
       />
-
+      <Stack.Screen
+        name="CartGuest"
+        component={CartGuestScreen}
+        options={{
+          headerTitle: () => (
+            <HeaderMiddle title={I18n.t('continue_as_guest')} />
+          ),
+        }}
+      />
       <Stack.Screen
         name="CartIndex"
-        component={CartIndexScreen}
+        component={DesigneratCartIndexScreen}
         options={{
           headerTitle: () => <HeaderMiddle title={I18n.t('cart')} />,
         }}
@@ -396,6 +417,15 @@ const MyExpoHomeStack = () => {
           headerTitle: () => <HeaderMiddle title={I18n.t('panorama')} />,
         }}
         component={PanoramaShowScreen}
+      />
+      <Stack.Screen
+        name={'Faq'}
+        component={FaqIndexCollapseScreen}
+        options={{
+          headerRight: () => <HeaderRight />,
+          headerTitle: () => <HeaderMiddle title={I18n.t('faqs')} />,
+          headerBackTitle: () => null,
+        }}
       />
     </Stack.Navigator>
   );

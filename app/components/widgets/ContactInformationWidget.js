@@ -11,6 +11,9 @@ import ImageLoaderContainer from './ImageLoaderContainer';
 import {useSelector} from 'react-redux';
 import {getWhatsappLink} from '../../helpers';
 import {themeColors} from '../../constants/colors';
+import FastImage from 'react-native-fast-image';
+import {icons} from '../../constants/images';
+import {iconSizes} from '../../constants/sizes';
 
 const ContactInformationWidget = () => {
   const {settings} = useSelector(state => state);
@@ -53,8 +56,8 @@ const ContactInformationWidget = () => {
             style={styles.container}>
             <View style={styles.wrapper}>
               <Icon
-                name="phone"
-                color="grey"
+                name="perm-phone-msg"
+                type="material"
                 iconStyle={{paddingLeft: 10}}
                 color={colors.icon_theme_color}
               />
@@ -86,7 +89,6 @@ const ContactInformationWidget = () => {
               <Icon
                 name="whatsapp"
                 type="font-awesome"
-                color="grey"
                 iconStyle={{paddingLeft: 10}}
                 color={colors.icon_theme_color}
               />
@@ -109,7 +111,7 @@ const ContactInformationWidget = () => {
             <View style={styles.wrapper}>
               <Icon
                 name="map"
-                color="grey"
+                type="evil"
                 iconStyle={{paddingLeft: 10}}
                 color={colors.icon_theme_color}
               />
@@ -147,8 +149,8 @@ const ContactInformationWidget = () => {
               style={styles.container}>
               <View style={styles.wrapper}>
                 <Icon
-                  name="location-on"
-                  color="grey"
+                  name="location"
+                  type="evil"
                   iconStyle={{paddingLeft: 10}}
                   color={colors.icon_theme_color}
                 />
@@ -178,7 +180,7 @@ const ContactInformationWidget = () => {
             <View style={styles.wrapper}>
               <Icon
                 name="email"
-                color="grey"
+                type="evil"
                 iconStyle={{paddingLeft: 10}}
                 color={colors.icon_theme_color}
               />

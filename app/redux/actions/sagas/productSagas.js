@@ -56,7 +56,7 @@ export function* getBestSaleProducts(action) {
       yield put({type: actions.SET_BEST_SALE_PRODUCTS, payload: []});
     }
   } catch (e) {
-    yield call(enableErrorMessage, I18n.t('no_best_sale_products'));
+    // yield call(enableErrorMessage, I18n.t('no_best_sale_products'));
   }
 }
 
@@ -180,9 +180,6 @@ export function* startGetProductScenario(action) {
       validate.isObject(element) &&
       element.id
     ) {
-      if (__DEV__) {
-        // console.log('the product', element);
-      }
       yield all([put({type: actions.SET_PRODUCT, payload: element})]);
       if (!validate.isEmpty(redirect) && redirect) {
         yield call(startGoogleAnalyticsScenario, {
