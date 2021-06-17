@@ -1,5 +1,11 @@
 import React, {useContext, Fragment, useCallback} from 'react';
-import {ScrollView, TouchableOpacity, Text, View} from 'react-native';
+import {
+  ScrollView,
+  TouchableOpacity,
+  Text,
+  View,
+  Pressable,
+} from 'react-native';
 import {map, isEmpty} from 'lodash';
 import PropTypes from 'prop-types';
 import {Icon} from 'react-native-elements';
@@ -50,9 +56,16 @@ const ProductHorizontalWidget = ({
             widgetStyles.container,
             {backgroundColor: 'transparent', marginTop: 0},
           ]}>
-          <TouchableOpacity
+          <Pressable
             activeOpacity={0.8}
-            style={widgetStyles.titleContainer}
+            style={[
+              widgetStyles.titleContainer,
+              {
+                paddingLeft: 10,
+                paddingRight: 10,
+                paddingBottom: 10,
+              },
+            ]}
             onPress={() => (showLink ? handleGetProducts() : null)}>
             <View style={widgetStyles.titleWrapper}>
               <Text
@@ -71,7 +84,7 @@ const ProductHorizontalWidget = ({
                 color={colors.header_one_theme_color}
               />
             )}
-          </TouchableOpacity>
+          </Pressable>
           <ScrollView
             horizontal={true}
             showsHorizontalScrollIndicator={false}

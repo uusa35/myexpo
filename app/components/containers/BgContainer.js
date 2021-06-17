@@ -193,7 +193,7 @@ const BgContainer = ({
           <StatusBar
             animated={true}
             backgroundColor={colors.header_theme_bg}
-            barStyle={ABATI ? 'dark-content' : 'dark-content'}
+            barStyle={ABATI || !isIOS ? 'dark-content' : 'light-content'}
           />
           {version !== currentVersion && (
             <Pressable

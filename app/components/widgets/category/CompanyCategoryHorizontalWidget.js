@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Text,
   View,
+  Pressable,
 } from 'react-native';
 import {map} from 'lodash';
 import PropTypes from 'prop-types';
@@ -51,11 +52,24 @@ const CompanyCategoryHorizontalWidget = ({
         <View
           style={[
             widgetStyles.container,
-            {backgroundColor: 'transparent', marginTop: 0, marginBottom: 10},
+            {
+              backgroundColor: 'transparent',
+              alignSelf: 'center',
+              // borderWidth : 0.5,
+            },
           ]}>
-          <TouchableOpacity
+          <Pressable
             activeOpacity={touchOpacity}
-            style={widgetStyles.titleContainer}
+            style={[
+              widgetStyles.titleContainer,
+              {
+                borderBottomWidth: 0.5,
+                borderBottomColor: colors.btn_theme_color,
+                paddingLeft: 10,
+                paddingRight: 10,
+                paddingBottom: 10,
+              },
+            ]}
             onPress={() => (showArrow ? navigate('CategoryIndex') : null)}>
             <View style={widgetStyles.titleWrapper}>
               <Text
@@ -74,7 +88,7 @@ const CompanyCategoryHorizontalWidget = ({
                 color={colors.header_one_theme_color}
               />
             )}
-          </TouchableOpacity>
+          </Pressable>
           <ScrollView
             horizontal={true}
             showsHorizontalScrollIndicator={false}
@@ -86,7 +100,7 @@ const CompanyCategoryHorizontalWidget = ({
                 easing="ease-out"
                 key={i}
                 useNativeDriver={true}>
-                <TouchableOpacity
+                <Pressable
                   activeOpacity={touchOpacity}
                   style={widgetStyles.btnStyle}
                   onPress={() => handleClick(c)}>
@@ -104,7 +118,7 @@ const CompanyCategoryHorizontalWidget = ({
                       {c.name}
                     </Text>
                   ) : null}
-                </TouchableOpacity>
+                </Pressable>
               </View>
             ))}
           </ScrollView>

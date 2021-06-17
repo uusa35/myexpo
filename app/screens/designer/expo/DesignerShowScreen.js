@@ -147,6 +147,8 @@ const DesignerShowScreen = ({navigation}) => {
               instagram={designer.instagram}
               youtube={designer.youtube}
               website={designer.website}
+              apple={designer.iphone}
+              android={designer.android}
               description={designer.description}
               latitude={designer.latitude}
               longitude={designer.longitude}

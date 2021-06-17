@@ -1,5 +1,11 @@
 import React, {Fragment} from 'react';
-import {TouchableOpacity, StyleSheet, Text, FlatList} from 'react-native';
+import {
+  TouchableOpacity,
+  Pressable,
+  StyleSheet,
+  Text,
+  FlatList,
+} from 'react-native';
 import {View} from 'react-native-animatable';
 import PropTypes from 'prop-types';
 import {getDesigner, getSearchDesigners} from '../../../redux/actions/user';
@@ -36,7 +42,7 @@ const ExpoDesignerHorizontalWidget = ({
           easing="ease-out"
           useNativeDriver={true}
           style={{marginTop: 10, marginBottom: 10}}>
-          <TouchableOpacity
+          <Pressable
             activeOpacity={touchOpacity}
             style={{
               flexDirection: 'row',
@@ -85,7 +91,7 @@ const ExpoDesignerHorizontalWidget = ({
                 color={colors.header_one_theme_color}
               />
             </View>
-          </TouchableOpacity>
+          </Pressable>
           <View
             style={{
               paddingTop: 25,
@@ -123,7 +129,7 @@ const ExpoDesignerHorizontalWidget = ({
                   easing="ease-out"
                   key={item.id}
                   useNativeDriver={true}>
-                  <TouchableOpacity
+                  <Pressable
                     activeOpacity={touchOpacity}
                     style={widgetStyles.btnStyle}
                     onPress={() =>
@@ -149,7 +155,7 @@ const ExpoDesignerHorizontalWidget = ({
                         {item.slug}
                       </Text>
                     ) : null}
-                  </TouchableOpacity>
+                  </Pressable>
                 </View>
               )}
             />

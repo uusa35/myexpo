@@ -787,6 +787,8 @@
   "pay_knet" : "Pay with Knet",
   "pay_credit" : "Pay with Visa/Master",
   "please_update_the_app" : "There is an update .. Please Update.",
-  "choose_currency" : "Choose Currency"
+  "choose_currency" : "Choose Currency",
+  "contact_with_the_merchant" : "Contact the merchant through whatsapp.",
+  "r_u_sure_logout" : "Are you sure you want to logout from you account ?"
 }
 

@@ -19,7 +19,7 @@ const appUrl = () => {
     case 'MYEXPO':
       return 'http://myexpo.live/';
     case 'ISTORES':
-      return 'http://i-stores.store/';
+      return 'https://i-stores.store/';
     case 'IHOUSES':
       return 'http://i-houses.net/';
     case 'ABATI':

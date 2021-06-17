@@ -45,8 +45,17 @@ const ProductCategoryHorizontalRoundedWidget = ({
           style={[widgetStyles.container, {backgroundColor: 'transparent'}]}>
           <TouchableOpacity
             activeOpacity={touchOpacity}
-            style={widgetStyles.titleContainer}
-            onPress={() => navigation.navigate('CategoryIndex')}>
+            style={[
+              widgetStyles.titleContainer,
+              {
+                borderBottomWidth: 0.5,
+                borderBottomColor: colors.btn_theme_color,
+                paddingLeft: 10,
+                paddingRight: 10,
+                paddingBottom: 10,
+              },
+            ]}
+            onPress={() => navigation.navigate('CategoryTab')}>
             <View style={widgetStyles.titleWrapper}>
               <Text
                 style={[
@@ -64,17 +73,10 @@ const ProductCategoryHorizontalRoundedWidget = ({
                   justifyContent: 'center',
                   alignContent: 'center',
                 }}>
-                <Text
-                  style={[
-                    widgetStyles.headerThree,
-                    {color: colors.btn_bg_theme_color},
-                  ]}>
-                  {I18n.t('show_all')}
-                </Text>
                 <Icon
                   type="entypo"
                   name={isRTL ? 'chevron-thin-left' : 'chevron-thin-right'}
-                  size={iconSizes.tiny}
+                  size={iconSizes.smallest}
                   color={colors.header_one_theme_color}
                 />
               </View>

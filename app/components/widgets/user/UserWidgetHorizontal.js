@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  Pressable,
   View,
 } from 'react-native';
 import {GlobalValuesContext} from '../../../redux/GlobalValuesContext';
@@ -27,7 +28,7 @@ const UserWidgetHorizontal = ({
   const {colors} = useContext(GlobalValuesContext);
   const dispatch = useDispatch();
   return (
-    <TouchableOpacity
+    <Pressable
       key={user.id}
       style={[
         widgetStyles.btnStyle,
@@ -53,7 +54,7 @@ const UserWidgetHorizontal = ({
         )
       }>
       <ImageBackground
-        source={images.loading}
+        // source={images.loading}
         style={{height: 240, width: '100%'}}>
         <Fragment>
           <ImageLoaderContainer
@@ -131,7 +132,7 @@ const UserWidgetHorizontal = ({
           ) : null}
         </Fragment>
       </ImageBackground>
-    </TouchableOpacity>
+    </Pressable>
   );
 };
 

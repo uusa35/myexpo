@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -20,17 +20,20 @@ import {TabActions, DrawerActions} from '@react-navigation/native';
 import {changeLang} from '../../redux/actions';
 import {logout} from '../../redux/actions/user';
 import PropTypes from 'prop-types';
+import ConfirmModal from '../ConfirmModal';
 
 const IorderSideMenu = ({showLogo = true, navigation}) => {
   const settings = useSelector(state => state.settings);
   const {logo, company, menu_bg, youtube, colors, terms, policy} = settings;
   const {lang, guest} = useSelector(state => state);
+  const [isVisible, setIsVisible] = useState(false);
   const dispatch = useDispatch();
 
   const goToHome = () => {
     navigation.closeDrawer();
     navigation.navigate('Home');
   };
+
   return (
     <View
       style={{
@@ -40,6 +43,13 @@ const IorderSideMenu = ({showLogo = true, navigation}) => {
         backgroundColor: colors.footer_bg_theme_color,
       }}
       resizeMode="cover">
+      <ConfirmModal
+        setIsVisible={setIsVisible}
+        handleClick={() => dispatch(logout())}
+        message={I18n.t('r_u_sure_logout')}
+        title={I18n.t('logout')}
+        isVisible={isVisible}
+      />
       <SafeAreaView style={{flex: 1}}>
         <ScrollView
           style={[styles.container]}
@@ -49,10 +59,6 @@ const IorderSideMenu = ({showLogo = true, navigation}) => {
           automaticallyAdjustContentInsets={false}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}>
-          <StatusBar
-            barStyle={`light-content`}
-            backgroundColor={colors.footer_bg_theme_color}
-          />
           <View style={{alignItems: 'flex-end', width: '100%'}}>
             <Icon
               name="close-o"
@@ -191,7 +197,7 @@ const IorderSideMenu = ({showLogo = true, navigation}) => {
             ) : (
               <View>
                 <TouchableOpacity
-                  onPress={() => dispatch(logout())}
+                  onPress={() => setIsVisible(true)}
                   style={[
                     styles.menuBtn,
                     {

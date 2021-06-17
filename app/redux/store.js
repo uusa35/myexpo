@@ -13,12 +13,12 @@ const persistConfig = {
   blacklist: [
     'message',
     'cart',
+    'shipment_fees',
     'branch',
     'branches',
     'pickup',
     'coupon',
     'player_id',
-    'shipment_fees',
     'countryModal',
     'currencyModal',
     'loginModal',

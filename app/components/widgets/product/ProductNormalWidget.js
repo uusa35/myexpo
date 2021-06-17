@@ -6,6 +6,7 @@ import {
   View,
   Text,
   TouchableHighlight,
+  Pressable,
 } from 'react-native';
 import widgetStyles from '../widgetStyles';
 import {getConvertedFinalPrice} from '../../../helpers';
@@ -28,7 +29,7 @@ const ProductNormalWidget = ({
     useContext(GlobalValuesContext);
 
   return (
-    <TouchableOpacity
+    <Pressable
       activeOpacity={touchOpacity}
       key={element.id}
       style={[widgetStyles.productServiceWidget, {width: width}]}
@@ -113,7 +114,7 @@ const ProductNormalWidget = ({
           )}
         </View>
       )}
-    </TouchableOpacity>
+    </Pressable>
   );
 };
 

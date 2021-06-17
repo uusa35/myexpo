@@ -823,6 +823,8 @@
   "pay_knet" : "الدفع عن طريق الكي نت",
   "pay_credit" : "الدفع عن طريق الفيزا / الماستر",
   "please_update_the_app" : "يوجد تحديث للتطبيق .. يرجى التحديث",
-  "choose_currency" : "اختر العملة"
+  "choose_currency" : "اختر العملة",
+  "contact_with_the_merchant" : "تواصل مع التاجر عن طريق الواتساب",
+  "r_u_sure_logout" : "تأكيد الخروج من حسابك ؟"
 
 }

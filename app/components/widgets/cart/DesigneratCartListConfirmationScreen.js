@@ -36,6 +36,7 @@ import {themeColors} from '../../../constants/colors';
 import FastImage from 'react-native-fast-image';
 import {images} from '../../../constants/images';
 import Modal from 'react-native-modal';
+import ConfirmModal from '../../ConfirmModal';
 
 const DesigneratCartListConfirmationScreen = ({
   showLabel = false,
@@ -105,57 +106,13 @@ const DesigneratCartListConfirmationScreen = ({
 
   return (
     <View style={{flexDirection: 'column', width, paddingBottom: '10%'}}>
-      <Modal isVisible={isVisible} transparent={true}>
-        <View
-          style={{
-            height: '30%',
-            width: '100%',
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderWidth: 1,
-            backgroundColor: 'white',
-            borderRadius: 5,
-          }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <Icon
-              name={'exclamation'}
-              type="evilicon"
-              style={{paddingLeft: 10, paddingRight: 10}}
-            />
-            <Text style={widgetStyles.headerFour}>
-              {I18n.t('order_confirmation')}
-            </Text>
-          </View>
-          <View style={[widgetStyles.panelContent, {marginBottom: 10}]}>
-            <Text style={[widgetStyles.headerThree, {lineHeight: 30}]}>
-              {I18n.t('order_cash_on_delivery_confirmation')}
-            </Text>
-          </View>
-          <View
-            style={{
-              width: '100%',
-              flexDirection: 'row',
-              justifyContent: 'space-around',
-              alignItems: 'center',
-            }}>
-            <DesigneratBtn
-              handleClick={() => handleCashOnDelivery()}
-              title={I18n.t('confirm')}
-              width={'30%'}
-            />
-            <DesigneratBtn
-              handleClick={() => setIsVisible(false)}
-              title={I18n.t('cancel')}
-              width={'30%'}
-            />
-          </View>
-        </View>
-      </Modal>
+      <ConfirmModal
+        isVisible={isVisible}
+        setIsVisible={() => setIsVisible()}
+        handleClick={() => handleCashOnDelivery()}
+        title={I18n.t('order_confirmation')}
+        message={I18n.t('order_cash_on_delivery_confirmation')}
+      />
       <View
         style={{
           flex: 1,

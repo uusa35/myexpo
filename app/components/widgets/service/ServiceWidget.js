@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   View,
   Text,
+  Pressable,
 } from 'react-native';
 import widgetStyles from '../widgetStyles';
 import {getConvertedFinalPrice} from '../../../helpers';
@@ -29,7 +30,7 @@ const ServiceWidget = ({
   const dispatch = useDispatch();
 
   return (
-    <TouchableOpacity
+    <Pressable
       activeOpacity={touchOpacity}
       key={element.id}
       style={[widgetStyles.productServiceWidget, {minWidth}]}
@@ -142,7 +143,7 @@ const ServiceWidget = ({
           </View>
         </View>
       )}
-    </TouchableOpacity>
+    </Pressable>
   );
 };
 

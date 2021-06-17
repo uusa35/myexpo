@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -21,16 +21,22 @@ import {TabActions, DrawerActions} from '@react-navigation/native';
 import {changeLang} from '../../redux/actions';
 import {logout} from '../../redux/actions/user';
 import PropTypes from 'prop-types';
+import ConfirmModal from '../ConfirmModal';
 
 const IstoresSideMenu = ({showLogo = true, navigation}) => {
-  const {auth, settings} = useSelector(state => state);
+  const {auth, settings, lang, guest} = useSelector(state => state);
   const {logo, company, menu_bg, youtube, colors, terms, policy} = settings;
-  const {lang, guest} = useSelector(state => state);
+  const [isVisible, setIsVisible] = useState(false);
   const dispatch = useDispatch();
 
   const goToHome = () => {
     navigation.closeDrawer();
     navigation.navigate('Home');
+  };
+
+  const handleLogout = () => {
+    navigation.closeDrawer();
+    return dispatch(logout());
   };
 
   return (
@@ -42,6 +48,13 @@ const IstoresSideMenu = ({showLogo = true, navigation}) => {
         backgroundColor: colors.footer_bg_theme_color,
       }}
       resizeMode="cover">
+      <ConfirmModal
+        setIsVisible={setIsVisible}
+        handleClick={() => handleLogout()}
+        message={I18n.t('r_u_sure_logout')}
+        title={I18n.t('logout')}
+        isVisible={isVisible}
+      />
       <SafeAreaView style={{flex: 1}}>
         <ScrollView
           style={[styles.container]}
@@ -207,7 +220,7 @@ const IstoresSideMenu = ({showLogo = true, navigation}) => {
             ) : (
               <View>
                 <TouchableOpacity
-                  onPress={() => dispatch(logout())}
+                  onPress={() => setIsVisible(true)}
                   style={[
                     styles.menuBtn,
                     {

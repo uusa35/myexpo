@@ -113,6 +113,7 @@ const IstoresHomeScreen = () => {
           <ProductCategoryHorizontalRoundedWidget
             elements={filter(homeCategories, c => c.is_product)}
             showName={true}
+            showAll={true}
             title={I18n.t('istores.product_categories')}
             type="products"
           />

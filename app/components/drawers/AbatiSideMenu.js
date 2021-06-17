@@ -49,10 +49,6 @@ const AbatiSideMenu = ({showLogo = true, navigation}) => {
           automaticallyAdjustContentInsets={false}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}>
-          <StatusBar
-            barStyle={`light-content`}
-            backgroundColor={colors.footer_bg_theme_color}
-          />
           <View style={{alignItems: 'flex-end', width: '100%'}}>
             <Icon
               name="close-o"

@@ -43,6 +43,8 @@ const UserImageProfileRounded = ({
   website = null,
   youtube = null,
   instagram = null,
+  android = null,
+  apple = null,
 }) => {
   const [rating, setRating] = useState(currentRating);
   const [fanMe, setFanMe] = useState(isFanned);
@@ -222,6 +224,30 @@ const UserImageProfileRounded = ({
                 color={colors.icon_theme_bg}
               />
             ) : null}
+            {android && (
+              <Icon
+                onPress={() => Linking.openURL(android)}
+                name="android"
+                type="font-awesome"
+                raised
+                reverse
+                iconStyle={{fontSize: iconSizes.smaller}}
+                size={iconSizes.smallest}
+                color={colors.icon_theme_bg}
+              />
+            )}
+            {apple && (
+              <Icon
+                onPress={() => Linking.openURL(apple)}
+                name="apple"
+                type="font-awesome"
+                raised
+                reverse
+                iconStyle={{fontSize: iconSizes.smaller}}
+                size={iconSizes.smallest}
+                color={colors.icon_theme_bg}
+              />
+            )}
           </View>
           <View
             style={{
